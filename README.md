@@ -8,7 +8,7 @@
 - [Obfuscation: The Art of Mathematical Deception](#obfuscation-the-art-of-mathematical-deception)
   - [What really is obfuscation ?](#what-really-is-obfuscation-)
   - [Examples of obfuscations](#examples-of-obfuscations)
-    - [Obfuscate All Null Literals](#obfuscate-all-null-literals)
+    - [Obfuscate all null literals](#obfuscate-all-null-literals)
     - [Data splitting and merging](#data-splitting-and-merging)
     - [Variable transformations](#variable-transformations)
     - [Array transformations](#array-transformations)
@@ -119,7 +119,7 @@ This definition of obfuscation, in particular the “Virtual Black Box” proper
 This section summarises some of the major obfuscations published to date.
 First, we consider some of the commercial obfuscators available and  then discuss some data structure and control flow obfuscations that are not  commonly implemented by commercial obfuscators.
 
-### Obfuscate All Null Literals
+### Obfuscate all null literals
 The process of obfuscating **all null literals** in a code is really simple. It means that we are going to replace almost all the zeroes in the code by a non-trivial boolean expression, proved to be always false.
 
 $$
