@@ -193,4 +193,4 @@ An  assignment to i is a statement of the form i = V and a use of i is an occurr
 * Any assignments of **_i_** of the form `i = V` ar replace by `j = f(V)`
 * Any uses of **_i_** are replaced by a *while* loop.
 
-In other therms, this replacements can be used to obfuscate a *while* loop.
+In other therms, this replacements can be used to obfuscate a *while* loop. [Look at this file for an example](src/variable-transformations.c)
