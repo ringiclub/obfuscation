@@ -60,29 +60,28 @@ According to a thesis submitted for the degree of Doctor of Philosophy at the Un
 - **Nesting Complexity** — the complexity of a function increases with the nesting level of conditionals in the function.
 - **Data-Structure Complexity** — the complexity increases with the complexity of the static data structures declared in a program. For example, the complexity of an array increases with the number of dimensions and with the complexity of the element type.
 
-Using such metrics, Collberg et al.  measure the potency of an obfuscation as follows. Let: **_T_** be a transformation which maps a program **_P_** to a program **_P'_**. 
-
-The potency of a transformation **_T_** with respect to the program **_P_** is defined to be:
+Using such metrics, Collberg et al.  measure the potency of an obfuscation as follows. 
+Let: **_T_** be a transformation which maps a program **_P_** to a program **_P'_**.  The potency of a transformation **_T_** with respect to the program **_P_** is defined to be:
 
 $$
 T_{\text{pot}}(P) = \frac{E(P')}{E(P)} - 1
 $$
 
 where **_E(P)_** is the complexity of **_P_** (using an appropriate metric). **_T_** is said to be a potent obfuscating transformation if :
+
 $$
 ( T_{\text{pot}}(P) > 0 )
 $$
+
 $$
 (i.e., if \space ( E(P') > E(P) ))
 $$
 
-In, **_P_** and **_P'_** are not required to be equally efficient, it is stated that many of the transformations given will result in **_P'_** being slower or using more memory than **_P_**.
+In, **_P_** and **_P'_** are not required to be equally efficient, it is stated that many of the transformations given will result in **_P'_** being slower or using more memory than **_P_**.  Other properties that Collberg et al. measure are:
 
-Other properties that Collberg et al. measure are:
-
-- **Resilience** — this measures how well a transformation survives an attack from a deobfuscator. Resilience takes into account the amount of time required to construct a deobfuscator and the execution time and space actually required by the deobfuscator.
-- **Execution Cost** — this measures the extra execution time and space of an obfuscated program **_P'_** compared with the original program **_P_**.
-- **Quality** — this combines potency, resilience, and execution cost to give an overall measure.
+- **Resilience** - this measures how well a transformation survives an attack from a deobfuscator. Resilience takes into account the amount of time required to construct a deobfuscator and the execution time and space actually required by the deobfuscator.
+- **Execution Cost** - this measures the extra execution time and space of an obfuscated program **_P'_** compared with the original program **_P_**.
+- **Quality** - this combines potency, resilience, and execution cost to give an overall measure.
 
 These three properties are measured informally on a non-numerical scale (e.g., for resilience, the scale is trivial, weak, strong, full, one-way).
 
@@ -108,9 +107,9 @@ Then, which fragment is more obfuscated?
 Barak et al. take a more formal approach to obfuscation; their notion of obfuscation is as follows. 
 An obfuscator **_O_** is a “compiler” which takes as input a program **_P_** and produces a new program ***_O(P)_*** such that for every **_P_**:
 
-- **Functionality** — **_O(P)_** computes the same function as **_P_**.
-- **Polynomial Slowdown** — the description length and running time of **_O(P)_** are at most polynomially larger than that of **_P_**.
-- **“Virtual black box” property** — “Anything that can be efficiently computed from **_O(P)_** can be efficiently computed given oracle access to **_P_**”.
+- **Functionality** - **_O(P)_** computes the same function as **_P_**.
+- **Polynomial Slowdown** - the description length and running time of **_O(P)_** are at most polynomially larger than that of **_P_**.
+- **“Virtual black box” property** - “Anything that can be efficiently computed from **_O(P)_** can be efficiently computed given oracle access to **_P_**”.
 
 With this definition, Barak et al. construct a family of functions that is unobfuscatable in the sense that there is no way of obfuscating programs that compute these functions. The main result of is that their notion of obfuscation is impossible to achieve.
 This definition of obfuscation, in particular the “Virtual Black Box” property, is evidently too strong for our purposes, and so we consider a weaker notion. We do not consider our programs as being “black boxes,” as we assume that any attacker can inspect and modify our code. Also, we would like an indication of how “good” an obfuscation is.
@@ -144,14 +143,17 @@ The process of **data splitting / merging** involves dividing a value into sever
 For example, a boolean variable can be split into two boolean variables, and performing logical operations on them can get the original value.
 
 $$
-\text{part1} = \text{original} \space  \& \space  0xFF
+\text{part1} = \text{original} \land 0xFF
 $$
+
 $$
-\text{part2} = (\text{original} >> 8) \space  \& \space 0xFF
+\text{part2} = \left(\text{original} \gg 8\right) \land 0xFF
 $$
+
 
 Data merging, on the other hand, aggregates several variables into one variable.
 When needed, the parts are merged as follows:
+
 $$
 \text{reconstructed} = (\text{part1} << 8) \space | \space \text{part2}
 $$
@@ -165,11 +167,13 @@ To do this, we define two functions **_f_** and **_g_**:
 $$
 f :: X → Y
 $$
+
 $$
 g :: Y → X
 $$
+
 Where:
-* `X ⊆ Z` , this represents the set of values that i takes. 
+* `X ⊆ Z` , this represents the set of values that I take. 
 
 We require that g is a left inverse of f (and so f needs to be injective).<br>
 If **_f_** is bijective (injective and surjective), then **_g_** is often called the inverse function of **_f_**. This means that:
