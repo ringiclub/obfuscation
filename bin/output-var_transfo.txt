@@ -1,0 +1,505 @@
+Testing simple_loop_base:
+Base loop iteration: 1
+Base loop iteration: 2
+Base loop iteration: 3
+Base loop iteration: 4
+Base loop iteration: 5
+Base loop iteration: 6
+Base loop iteration: 7
+Base loop iteration: 8
+Base loop iteration: 9
+Base loop iteration: 10
+Base loop iteration: 11
+Base loop iteration: 12
+Base loop iteration: 13
+Base loop iteration: 14
+Base loop iteration: 15
+Base loop iteration: 16
+Base loop iteration: 17
+Base loop iteration: 18
+Base loop iteration: 19
+Base loop iteration: 20
+Base loop iteration: 21
+Base loop iteration: 22
+Base loop iteration: 23
+Base loop iteration: 24
+Base loop iteration: 25
+Base loop iteration: 26
+Base loop iteration: 27
+Base loop iteration: 28
+Base loop iteration: 29
+Base loop iteration: 30
+Base loop iteration: 31
+Base loop iteration: 32
+Base loop iteration: 33
+Base loop iteration: 34
+Base loop iteration: 35
+Base loop iteration: 36
+Base loop iteration: 37
+Base loop iteration: 38
+Base loop iteration: 39
+Base loop iteration: 40
+Base loop iteration: 41
+Base loop iteration: 42
+Base loop iteration: 43
+Base loop iteration: 44
+Base loop iteration: 45
+Base loop iteration: 46
+Base loop iteration: 47
+Base loop iteration: 48
+Base loop iteration: 49
+Base loop iteration: 50
+Base loop iteration: 51
+Base loop iteration: 52
+Base loop iteration: 53
+Base loop iteration: 54
+Base loop iteration: 55
+Base loop iteration: 56
+Base loop iteration: 57
+Base loop iteration: 58
+Base loop iteration: 59
+Base loop iteration: 60
+Base loop iteration: 61
+Base loop iteration: 62
+Base loop iteration: 63
+Base loop iteration: 64
+Base loop iteration: 65
+Base loop iteration: 66
+Base loop iteration: 67
+Base loop iteration: 68
+Base loop iteration: 69
+Base loop iteration: 70
+Base loop iteration: 71
+Base loop iteration: 72
+Base loop iteration: 73
+Base loop iteration: 74
+Base loop iteration: 75
+Base loop iteration: 76
+Base loop iteration: 77
+Base loop iteration: 78
+Base loop iteration: 79
+Base loop iteration: 80
+Base loop iteration: 81
+Base loop iteration: 82
+Base loop iteration: 83
+Base loop iteration: 84
+Base loop iteration: 85
+Base loop iteration: 86
+Base loop iteration: 87
+Base loop iteration: 88
+Base loop iteration: 89
+Base loop iteration: 90
+Base loop iteration: 91
+Base loop iteration: 92
+Base loop iteration: 93
+Base loop iteration: 94
+Base loop iteration: 95
+Base loop iteration: 96
+Base loop iteration: 97
+Base loop iteration: 98
+Base loop iteration: 99
+Base loop iteration: 100
+
+Testing simple_loop_step1:
+Step 1 iteration: 1
+Step 1 iteration: 2
+Step 1 iteration: 3
+Step 1 iteration: 4
+Step 1 iteration: 5
+Step 1 iteration: 6
+Step 1 iteration: 7
+Step 1 iteration: 8
+Step 1 iteration: 9
+Step 1 iteration: 10
+Step 1 iteration: 11
+Step 1 iteration: 12
+Step 1 iteration: 13
+Step 1 iteration: 14
+Step 1 iteration: 15
+Step 1 iteration: 16
+Step 1 iteration: 17
+Step 1 iteration: 18
+Step 1 iteration: 19
+Step 1 iteration: 20
+Step 1 iteration: 21
+Step 1 iteration: 22
+Step 1 iteration: 23
+Step 1 iteration: 24
+Step 1 iteration: 25
+Step 1 iteration: 26
+Step 1 iteration: 27
+Step 1 iteration: 28
+Step 1 iteration: 29
+Step 1 iteration: 30
+Step 1 iteration: 31
+Step 1 iteration: 32
+Step 1 iteration: 33
+Step 1 iteration: 34
+Step 1 iteration: 35
+Step 1 iteration: 36
+Step 1 iteration: 37
+Step 1 iteration: 38
+Step 1 iteration: 39
+Step 1 iteration: 40
+Step 1 iteration: 41
+Step 1 iteration: 42
+Step 1 iteration: 43
+Step 1 iteration: 44
+Step 1 iteration: 45
+Step 1 iteration: 46
+Step 1 iteration: 47
+Step 1 iteration: 48
+Step 1 iteration: 49
+Step 1 iteration: 50
+Step 1 iteration: 51
+Step 1 iteration: 52
+Step 1 iteration: 53
+Step 1 iteration: 54
+Step 1 iteration: 55
+Step 1 iteration: 56
+Step 1 iteration: 57
+Step 1 iteration: 58
+Step 1 iteration: 59
+Step 1 iteration: 60
+Step 1 iteration: 61
+Step 1 iteration: 62
+Step 1 iteration: 63
+Step 1 iteration: 64
+Step 1 iteration: 65
+Step 1 iteration: 66
+Step 1 iteration: 67
+Step 1 iteration: 68
+Step 1 iteration: 69
+Step 1 iteration: 70
+Step 1 iteration: 71
+Step 1 iteration: 72
+Step 1 iteration: 73
+Step 1 iteration: 74
+Step 1 iteration: 75
+Step 1 iteration: 76
+Step 1 iteration: 77
+Step 1 iteration: 78
+Step 1 iteration: 79
+Step 1 iteration: 80
+Step 1 iteration: 81
+Step 1 iteration: 82
+Step 1 iteration: 83
+Step 1 iteration: 84
+Step 1 iteration: 85
+Step 1 iteration: 86
+Step 1 iteration: 87
+Step 1 iteration: 88
+Step 1 iteration: 89
+Step 1 iteration: 90
+Step 1 iteration: 91
+Step 1 iteration: 92
+Step 1 iteration: 93
+Step 1 iteration: 94
+Step 1 iteration: 95
+Step 1 iteration: 96
+Step 1 iteration: 97
+Step 1 iteration: 98
+Step 1 iteration: 99
+
+Testing simple_loop_step2:
+Step 2 iteration: 5
+Step 2 iteration: 7
+Step 2 iteration: 9
+Step 2 iteration: 11
+Step 2 iteration: 13
+Step 2 iteration: 15
+Step 2 iteration: 17
+Step 2 iteration: 19
+Step 2 iteration: 21
+Step 2 iteration: 23
+Step 2 iteration: 25
+Step 2 iteration: 27
+Step 2 iteration: 29
+Step 2 iteration: 31
+Step 2 iteration: 33
+Step 2 iteration: 35
+Step 2 iteration: 37
+Step 2 iteration: 39
+Step 2 iteration: 41
+Step 2 iteration: 43
+Step 2 iteration: 45
+Step 2 iteration: 47
+Step 2 iteration: 49
+Step 2 iteration: 51
+Step 2 iteration: 53
+Step 2 iteration: 55
+Step 2 iteration: 57
+Step 2 iteration: 59
+Step 2 iteration: 61
+Step 2 iteration: 63
+Step 2 iteration: 65
+Step 2 iteration: 67
+Step 2 iteration: 69
+Step 2 iteration: 71
+Step 2 iteration: 73
+Step 2 iteration: 75
+Step 2 iteration: 77
+Step 2 iteration: 79
+Step 2 iteration: 81
+Step 2 iteration: 83
+Step 2 iteration: 85
+Step 2 iteration: 87
+Step 2 iteration: 89
+Step 2 iteration: 91
+Step 2 iteration: 93
+Step 2 iteration: 95
+Step 2 iteration: 97
+Step 2 iteration: 99
+Step 2 iteration: 101
+Step 2 iteration: 103
+Step 2 iteration: 105
+Step 2 iteration: 107
+Step 2 iteration: 109
+Step 2 iteration: 111
+Step 2 iteration: 113
+Step 2 iteration: 115
+Step 2 iteration: 117
+Step 2 iteration: 119
+Step 2 iteration: 121
+Step 2 iteration: 123
+Step 2 iteration: 125
+Step 2 iteration: 127
+Step 2 iteration: 129
+Step 2 iteration: 131
+Step 2 iteration: 133
+Step 2 iteration: 135
+Step 2 iteration: 137
+Step 2 iteration: 139
+Step 2 iteration: 141
+Step 2 iteration: 143
+Step 2 iteration: 145
+Step 2 iteration: 147
+Step 2 iteration: 149
+Step 2 iteration: 151
+Step 2 iteration: 153
+Step 2 iteration: 155
+Step 2 iteration: 157
+Step 2 iteration: 159
+Step 2 iteration: 161
+Step 2 iteration: 163
+Step 2 iteration: 165
+Step 2 iteration: 167
+Step 2 iteration: 169
+Step 2 iteration: 171
+Step 2 iteration: 173
+Step 2 iteration: 175
+Step 2 iteration: 177
+Step 2 iteration: 179
+Step 2 iteration: 181
+Step 2 iteration: 183
+Step 2 iteration: 185
+Step 2 iteration: 187
+Step 2 iteration: 189
+Step 2 iteration: 191
+Step 2 iteration: 193
+Step 2 iteration: 195
+Step 2 iteration: 197
+Step 2 iteration: 199
+Step 2 iteration: 201
+
+Testing simple_loop_step3:
+Step 3 iteration: 1
+Step 3 iteration: 2
+Step 3 iteration: 3
+Step 3 iteration: 4
+Step 3 iteration: 5
+Step 3 iteration: 6
+Step 3 iteration: 7
+Step 3 iteration: 8
+Step 3 iteration: 9
+Step 3 iteration: 10
+Step 3 iteration: 11
+Step 3 iteration: 12
+Step 3 iteration: 13
+Step 3 iteration: 14
+Step 3 iteration: 15
+Step 3 iteration: 16
+Step 3 iteration: 17
+Step 3 iteration: 18
+Step 3 iteration: 19
+Step 3 iteration: 20
+Step 3 iteration: 21
+Step 3 iteration: 22
+Step 3 iteration: 23
+Step 3 iteration: 24
+Step 3 iteration: 25
+Step 3 iteration: 26
+Step 3 iteration: 27
+Step 3 iteration: 28
+Step 3 iteration: 29
+Step 3 iteration: 30
+Step 3 iteration: 31
+Step 3 iteration: 32
+Step 3 iteration: 33
+Step 3 iteration: 34
+Step 3 iteration: 35
+Step 3 iteration: 36
+Step 3 iteration: 37
+Step 3 iteration: 38
+Step 3 iteration: 39
+Step 3 iteration: 40
+Step 3 iteration: 41
+Step 3 iteration: 42
+Step 3 iteration: 43
+Step 3 iteration: 44
+Step 3 iteration: 45
+Step 3 iteration: 46
+Step 3 iteration: 47
+Step 3 iteration: 48
+Step 3 iteration: 49
+Step 3 iteration: 50
+Step 3 iteration: 51
+Step 3 iteration: 52
+Step 3 iteration: 53
+Step 3 iteration: 54
+Step 3 iteration: 55
+Step 3 iteration: 56
+Step 3 iteration: 57
+Step 3 iteration: 58
+Step 3 iteration: 59
+Step 3 iteration: 60
+Step 3 iteration: 61
+Step 3 iteration: 62
+Step 3 iteration: 63
+Step 3 iteration: 64
+Step 3 iteration: 65
+Step 3 iteration: 66
+Step 3 iteration: 67
+Step 3 iteration: 68
+Step 3 iteration: 69
+Step 3 iteration: 70
+Step 3 iteration: 71
+Step 3 iteration: 72
+Step 3 iteration: 73
+Step 3 iteration: 74
+Step 3 iteration: 75
+Step 3 iteration: 76
+Step 3 iteration: 77
+Step 3 iteration: 78
+Step 3 iteration: 79
+Step 3 iteration: 80
+Step 3 iteration: 81
+Step 3 iteration: 82
+Step 3 iteration: 83
+Step 3 iteration: 84
+Step 3 iteration: 85
+Step 3 iteration: 86
+Step 3 iteration: 87
+Step 3 iteration: 88
+Step 3 iteration: 89
+Step 3 iteration: 90
+Step 3 iteration: 91
+Step 3 iteration: 92
+Step 3 iteration: 93
+Step 3 iteration: 94
+Step 3 iteration: 95
+Step 3 iteration: 96
+Step 3 iteration: 97
+Step 3 iteration: 98
+Step 3 iteration: 99
+
+Testing simple_loop_step4:
+Step 4 iteration: j = 0, k = 1, i = 1
+Step 4 iteration: j = 0, k = 2, i = 2
+Step 4 iteration: j = 0, k = 3, i = 3
+Step 4 iteration: j = 0, k = 4, i = 4
+Step 4 iteration: j = 0, k = 5, i = 5
+Step 4 iteration: j = 0, k = 6, i = 6
+Step 4 iteration: j = 0, k = 7, i = 7
+Step 4 iteration: j = 0, k = 8, i = 8
+Step 4 iteration: j = 0, k = 9, i = 9
+Step 4 iteration: j = 1, k = 0, i = 10
+Step 4 iteration: j = 1, k = 1, i = 11
+Step 4 iteration: j = 1, k = 2, i = 12
+Step 4 iteration: j = 1, k = 3, i = 13
+Step 4 iteration: j = 1, k = 4, i = 14
+Step 4 iteration: j = 1, k = 5, i = 15
+Step 4 iteration: j = 1, k = 6, i = 16
+Step 4 iteration: j = 1, k = 7, i = 17
+Step 4 iteration: j = 1, k = 8, i = 18
+Step 4 iteration: j = 1, k = 9, i = 19
+Step 4 iteration: j = 2, k = 0, i = 20
+Step 4 iteration: j = 2, k = 1, i = 21
+Step 4 iteration: j = 2, k = 2, i = 22
+Step 4 iteration: j = 2, k = 3, i = 23
+Step 4 iteration: j = 2, k = 4, i = 24
+Step 4 iteration: j = 2, k = 5, i = 25
+Step 4 iteration: j = 2, k = 6, i = 26
+Step 4 iteration: j = 2, k = 7, i = 27
+Step 4 iteration: j = 2, k = 8, i = 28
+Step 4 iteration: j = 2, k = 9, i = 29
+Step 4 iteration: j = 3, k = 0, i = 30
+Step 4 iteration: j = 3, k = 1, i = 31
+Step 4 iteration: j = 3, k = 2, i = 32
+Step 4 iteration: j = 3, k = 3, i = 33
+Step 4 iteration: j = 3, k = 4, i = 34
+Step 4 iteration: j = 3, k = 5, i = 35
+Step 4 iteration: j = 3, k = 6, i = 36
+Step 4 iteration: j = 3, k = 7, i = 37
+Step 4 iteration: j = 3, k = 8, i = 38
+Step 4 iteration: j = 3, k = 9, i = 39
+Step 4 iteration: j = 4, k = 0, i = 40
+Step 4 iteration: j = 4, k = 1, i = 41
+Step 4 iteration: j = 4, k = 2, i = 42
+Step 4 iteration: j = 4, k = 3, i = 43
+Step 4 iteration: j = 4, k = 4, i = 44
+Step 4 iteration: j = 4, k = 5, i = 45
+Step 4 iteration: j = 4, k = 6, i = 46
+Step 4 iteration: j = 4, k = 7, i = 47
+Step 4 iteration: j = 4, k = 8, i = 48
+Step 4 iteration: j = 4, k = 9, i = 49
+Step 4 iteration: j = 5, k = 0, i = 50
+Step 4 iteration: j = 5, k = 1, i = 51
+Step 4 iteration: j = 5, k = 2, i = 52
+Step 4 iteration: j = 5, k = 3, i = 53
+Step 4 iteration: j = 5, k = 4, i = 54
+Step 4 iteration: j = 5, k = 5, i = 55
+Step 4 iteration: j = 5, k = 6, i = 56
+Step 4 iteration: j = 5, k = 7, i = 57
+Step 4 iteration: j = 5, k = 8, i = 58
+Step 4 iteration: j = 5, k = 9, i = 59
+Step 4 iteration: j = 6, k = 0, i = 60
+Step 4 iteration: j = 6, k = 1, i = 61
+Step 4 iteration: j = 6, k = 2, i = 62
+Step 4 iteration: j = 6, k = 3, i = 63
+Step 4 iteration: j = 6, k = 4, i = 64
+Step 4 iteration: j = 6, k = 5, i = 65
+Step 4 iteration: j = 6, k = 6, i = 66
+Step 4 iteration: j = 6, k = 7, i = 67
+Step 4 iteration: j = 6, k = 8, i = 68
+Step 4 iteration: j = 6, k = 9, i = 69
+Step 4 iteration: j = 7, k = 0, i = 70
+Step 4 iteration: j = 7, k = 1, i = 71
+Step 4 iteration: j = 7, k = 2, i = 72
+Step 4 iteration: j = 7, k = 3, i = 73
+Step 4 iteration: j = 7, k = 4, i = 74
+Step 4 iteration: j = 7, k = 5, i = 75
+Step 4 iteration: j = 7, k = 6, i = 76
+Step 4 iteration: j = 7, k = 7, i = 77
+Step 4 iteration: j = 7, k = 8, i = 78
+Step 4 iteration: j = 7, k = 9, i = 79
+Step 4 iteration: j = 8, k = 0, i = 80
+Step 4 iteration: j = 8, k = 1, i = 81
+Step 4 iteration: j = 8, k = 2, i = 82
+Step 4 iteration: j = 8, k = 3, i = 83
+Step 4 iteration: j = 8, k = 4, i = 84
+Step 4 iteration: j = 8, k = 5, i = 85
+Step 4 iteration: j = 8, k = 6, i = 86
+Step 4 iteration: j = 8, k = 7, i = 87
+Step 4 iteration: j = 8, k = 8, i = 88
+Step 4 iteration: j = 8, k = 9, i = 89
+Step 4 iteration: j = 9, k = 0, i = 90
+Step 4 iteration: j = 9, k = 1, i = 91
+Step 4 iteration: j = 9, k = 2, i = 92
+Step 4 iteration: j = 9, k = 3, i = 93
+Step 4 iteration: j = 9, k = 4, i = 94
+Step 4 iteration: j = 9, k = 5, i = 95
+Step 4 iteration: j = 9, k = 6, i = 96
+Step 4 iteration: j = 9, k = 7, i = 97
+Step 4 iteration: j = 9, k = 8, i = 98
+Step 4 iteration: j = 9, k = 9, i = 99
