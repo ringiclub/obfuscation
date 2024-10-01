@@ -1,3 +1,0 @@
-[submodule "obfuscator-llvm"]
-	path = lib/obfuscator-llvm
-	url = https://github.com/eshard/obfuscator-llvm
