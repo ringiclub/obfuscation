@@ -8,8 +8,10 @@
 - [Obfuscation: The Art of Mathematical Deception](#obfuscation-the-art-of-mathematical-deception)
   - [What really is obfuscation ?](#what-really-is-obfuscation-)
   - [Examples of obfuscations](#examples-of-obfuscations)
-    - [Data procedurization: All Null Literals](#data-procedurization-all-null-literals)
-    - [Data splitting-merging: Divide and conquer](#data-splitting-merging-divide-and-conquer)
+    - [Obfuscate All Null Literals](#obfuscate-all-null-literals)
+    - [Data splitting and merging](#data-splitting-and-merging)
+    - [Variable transformations](#variable-transformations)
+    - [Array transformations](#array-transformations)
 
 ## Introduction
 As part of my work-study program as a reverse engineer, I'm in charge of analyzing the various layers of obfuscation in compiled code through the interfaces of the Tigress and OLLVM compilers.
@@ -53,14 +55,13 @@ A common practice in obfuscation is to use mathematics... after all, that's what
 So we're going to look at different mathematical expressions for obfuscation.
 
 ## What really is obfuscation ?
-
-According to a thesis submitted for the degree of Doctor of Philosophy at the University of Oxford written by Stephen Drape; an obfuscation is a behaviour-preserving transformation whose aim is to make a program “harder to understand.” Collberg et al.  do not define obfuscation but instead qualify “hard to understand” by using various metrics which measure the complexity of code. For example:
+According to a thesis submitted for the degree of Doctor of Philosophy at the University of Oxford written by Stephen Drape; an obfuscation is a behaviour-preserving transformation whose aim is to make a program “harder to understand.” Collberg  do not define obfuscation but instead qualify “hard to understand” by using various metrics which measure the complexity of code. For example:
 
 - **Cyclomatic Complexity** — the complexity of a function increases with the number of predicates in the function.
 - **Nesting Complexity** — the complexity of a function increases with the nesting level of conditionals in the function.
 - **Data-Structure Complexity** — the complexity increases with the complexity of the static data structures declared in a program. For example, the complexity of an array increases with the number of dimensions and with the complexity of the element type.
 
-Using such metrics, Collberg et al.  measure the potency of an obfuscation as follows. 
+Using such metrics, Collberg  measure the potency of an obfuscation as follows. 
 Let: **_T_** be a transformation which maps a program **_P_** to a program **_P'_**.  The potency of a transformation **_T_** with respect to the program **_P_** is defined to be:
 
 $$
@@ -77,7 +78,7 @@ $$
 (i.e., if \space ( E(P') > E(P) ))
 $$
 
-In, **_P_** and **_P'_** are not required to be equally efficient, it is stated that many of the transformations given will result in **_P'_** being slower or using more memory than **_P_**.  Other properties that Collberg et al. measure are:
+In, **_P_** and **_P'_** are not required to be equally efficient, it is stated that many of the transformations given will result in **_P'_** being slower or using more memory than **_P_**.  Other properties that Collberg measure are:
 
 - **Resilience** - this measures how well a transformation survives an attack from a deobfuscator. Resilience takes into account the amount of time required to construct a deobfuscator and the execution time and space actually required by the deobfuscator.
 - **Execution Cost** - this measures the extra execution time and space of an obfuscated program **_P'_** compared with the original program **_P_**.
@@ -118,7 +119,7 @@ This definition of obfuscation, in particular the “Virtual Black Box” proper
 This section summarises some of the major obfuscations published to date.
 First, we consider some of the commercial obfuscators available and  then discuss some data structure and control flow obfuscations that are not  commonly implemented by commercial obfuscators.
 
-### Data procedurization: All Null Literals
+### Obfuscate All Null Literals
 The process of obfuscating **all null literals** in a code is really simple. It means that we are going to replace almost all the zeroes in the code by a non-trivial boolean expression, proved to be always false.
 
 $$
@@ -137,8 +138,7 @@ As you probably noticed  we will have to play attention to the type of the origi
 
 This type of obfuscation may not be the most sophisticated ever written, but it's enough to learn the basics of LLVM bytecode obfuscation and maybe to annoy people in reverse engineering for a few minutes... until they use a nicely crafted [miasm](https://code.google.com/archive/p/miasm/) script!
 
-### Data splitting-merging: Divide and conquer
-
+### Data splitting and merging
 The process of **data splitting / merging** involves dividing a value into several parts and then combining them when needed. To put it another way, it distributes the information of one variable into several new variables. 
 For example, a boolean variable can be split into two boolean variables, and performing logical operations on them can get the original value.
 
@@ -194,3 +194,21 @@ An  assignment to i is a statement of the form i = V and a use of i is an occurr
 * Any uses of **_i_** are replaced by a *while* loop.
 
 In other therms, this replacements can be used to obfuscate a *while* loop. [Look at this file for an example](src/variable-transformations.c)
+
+### Array transformations
+There are many ways in which arrays can be obfuscated. One of the simplest ways is to change the array indices. 
+Such a change could be achieved either by a variable transformation or by defining a permutation.
+Here is an example permutation for an array of size n:
+
+$$
+p = λi.(a × i + b ( mod(n))) \space where \space gcd (a, n) = 1
+$$
+
+Other array transformations involve changing the structure of an array. One way of changing the structure is by choosing different array dimensions. 
+We could fold a 1-dimensional array of size m × n into a 2-dimensional array of size [m, n]. Similarly, we could flatten an n-dimensional array into a 1-dimensional array.
+
+> [!IMPORTANT]
+> Before performing array transformations, we must ensure that the arrays are safe to transform. 
+ 
+For example, we may require that a whole array is not passed to another method or that elements of the array do not throw exceptions.
+
