@@ -1,12 +1,11 @@
 # Obfuscation analysis
 
 # Table of contents
-- [Introduction](#introduction)
+- [Obfuscation analysis](#obfuscation-analysis)
+- [Table of contents](#table-of-contents)
+  - [Introduction](#introduction)
   - [LLVM: A Compiler Infrastructure Overview](#llvm-a-compiler-infrastructure-overview)
     - [OLLVM: Turning Intermediate Representation Into Atrocities](#ollvm-turning-intermediate-representation-into-atrocities)
-  
-    <br>
-
 - [Obfuscation: The Art of Mathematical Deception](#obfuscation-the-art-of-mathematical-deception)
   - [What really is obfuscation ?](#what-really-is-obfuscation-)
   - [Examples of obfuscations](#examples-of-obfuscations)
@@ -14,9 +13,14 @@
     - [Data splitting and merging](#data-splitting-and-merging)
     - [Variable transformations](#variable-transformations)
     - [Array transformations](#array-transformations)
-    - [Array splitting](#array-splitting)
-    - [Array merging](#array-merging)
-    - [Data encoding](#data-encoding)
+    - [Array Splitting](#array-splitting)
+    - [Array Merging](#array-merging)
+    - [Data Encoding: The Importance of String Obfuscation in Reverse Engineering](#data-encoding-the-importance-of-string-obfuscation-in-reverse-engineering)
+      - [The Need for Encryption](#the-need-for-encryption)
+      - [A Mathematical Perspective on Encryption](#a-mathematical-perspective-on-encryption)
+      - [Using Randomness for Improved Security](#using-randomness-for-improved-security)
+      - [Alternative Encryption Techniques](#alternative-encryption-techniques)
+      - [Complexity Considerations](#complexity-considerations)
 
 ## Introduction
 As part of my work-study program as a reverse engineer, I'm in charge of analyzing the various layers of obfuscation in compiled code through the interfaces of the Tigress and OLLVM compilers.
@@ -287,4 +291,72 @@ $$
 
 This transformation is analogous to the concatenation of two sequences (lists).
 
-### Data encoding
+### Data Encoding: The Importance of String Obfuscation in Reverse Engineering
+For those familiar with reverse engineering, strings often hold critical information, including passwords, API keys, tokens, and other sensitive data. 
+When reverse engineering software, these strings can provide insights into the application's functionality, making them prime targets for attackers.
+
+#### The Need for Encryption
+To protect these strings, one might consider simply encrypting them. 
+However, if the same encryption scheme is applied uniformly across all visible strings in the code, the effectiveness of this approach diminishes significantly. 
+An adversary only needs to compromise the encryption function once to access all encrypted strings, rendering the obfuscation principle ineffective.
+
+### A Mathematical Perspective on Encryption
+To illustrate this point mathematically, consider a string `S` composed of characters: $$c1, c2, ..., cn$$ 
+If we use a simple symmetric encryption function `E` defined as:
+
+$$
+E(S, K) = (c_1 \oplus k_1, c_2 \oplus k_2, \ldots, c_n \oplus k_n)
+$$
+
+where:
+- `K` is the key composed of `k_1, k_2, ..., k_n` ,
+- `⊕`  denotes the bitwise XOR operation,
+
+the encrypted string `E(S, K)`  results in a new string where each character is transformed based on the corresponding key character. This transformation obscures the original string, making it difficult for an unauthorized party to discern the original characters without knowledge of the key ` K` .
+
+In this way, the mathematical foundation of encryption ensures that even with the same plaintext, varying keys will produce different ciphertexts, enhancing security through confusion and diffusion principles.
+
+#### Using Randomness for Improved Security
+To enhance security, one effective strategy is to introduce randomness into the encryption process. 
+For instance, some developers opt to use a random seed based on dynamic physical data, such as the real-time rate of radioactivity in the air at specific geographic coordinates. 
+This method leverages unpredictable environmental variables to generate keys, ensuring that each encryption operation results in a unique outcome.
+
+Mathematically, this could be expressed as:
+
+$$
+ki = H(\text{random source}(i) \,||\, \text{physical data})
+$$
+
+where `H`  is a hash function that combines a unique identifier (such as the index `i`) with the unpredictable physical data. 
+This results in different keys for different strings, complicating reverse engineering efforts.
+
+#### Alternative Encryption Techniques
+Beyond using randomness, developers can explore various encryption algorithms. While traditional algorithms such as **AES** (Advanced Encryption Standard) and **Elliptic Curve Cryptography (ECC)** are common, they each come with their own complexities and overheads.
+
+1. **AES**:
+   - AES operates on blocks of data and requires a fixed key size (128, 192, or 256 bits). 
+       It uses multiple rounds of transformation, mixing the data in a way that ensures both confidentiality and integrity.
+
+      $$
+      C = E_{AES}(K, P)
+      $$
+
+      where `C`  is the ciphertext, `P`  is the plaintext, and `K`  is the encryption key.<br>
+
+2. **Elliptic Curve Cryptography (ECC)**:
+    - ECC is based on the mathematics of elliptic curves and provides a higher level of security with smaller key sizes. 
+        It is particularly effective for scenarios where computational efficiency is critical.
+
+   $$
+   C = k \cdot P
+   $$    
+
+   where `C`  is the public key, `k`  is a randomly chosen integer, and `P`  is a point on the elliptic curve.
+
+#### Complexity Considerations
+
+While encryption adds a layer of security, it also significantly increases the complexity of a program. 
+Therefore, it is essential to weigh the benefits of encryption against the potential impact on performance and maintainability. 
+In some cases, simpler obfuscation techniques may suffice to deter reverse engineering without the overhead of complex encryption algorithms.
+
+Ultimately, the choice of how to obfuscate sensitive strings must be informed by a thorough understanding of the potential threats, the capabilities of the attacker, and the operational context of the application.
