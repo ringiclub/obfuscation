@@ -333,25 +333,23 @@ This results in different keys for different strings, complicating reverse engin
 #### Alternative Encryption Techniques
 Beyond using randomness, developers can explore various encryption algorithms. While traditional algorithms such as **AES** (Advanced Encryption Standard) and **Elliptic Curve Cryptography (ECC)** are common, they each come with their own complexities and overheads.
 
-1. **AES**:
-   - AES operates on blocks of data and requires a fixed key size (128, 192, or 256 bits). 
-       It uses multiple rounds of transformation, mixing the data in a way that ensures both confidentiality and integrity.
+1. **AES**: AES operates on blocks of data and requires a fixed key size (128, 192, or 256 bits). 
+It uses multiple rounds of transformation, mixing the data in a way that ensures both confidentiality and integrity.
 
-      $$
-      C = E_{AES}(K, P)
-      $$
+$$
+C = E_{AES}(K, P)
+$$
 
-      where `C`  is the ciphertext, `P`  is the plaintext, and `K`  is the encryption key.<br>
+where `C`  is the ciphertext, `P`  is the plaintext, and `K`  is the encryption key.<br>
 
-2. **Elliptic Curve Cryptography (ECC)**:
-    - ECC is based on the mathematics of elliptic curves and provides a higher level of security with smaller key sizes. 
-        It is particularly effective for scenarios where computational efficiency is critical.
+2. **Elliptic Curve Cryptography (ECC)**: ECC is based on the mathematics of elliptic curves and provides a higher level of security with smaller key sizes. 
+It is particularly effective for scenarios where computational efficiency is critical.
 
-   $$
-   C = k \cdot P
-   $$    
+$$
+C = k \cdot P
+$$
 
-   where `C`  is the public key, `k`  is a randomly chosen integer, and `P`  is a point on the elliptic curve.
+where `C`  is the public key, `k`  is a randomly chosen integer, and `P`  is a point on the elliptic curve.
 
 #### Complexity Considerations
 
