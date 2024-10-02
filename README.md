@@ -10,7 +10,8 @@
   - [What really is obfuscation ?](#what-really-is-obfuscation-)
   - [Examples of obfuscations](#examples-of-obfuscations)
     - [Obfuscate all null literals](#obfuscate-all-null-literals)
-    - [Data splitting and merging](#data-splitting-and-merging)
+    - [Data splitting](#data-splitting)
+    - [Data merging](#data-merging)
     - [Variable transformations](#variable-transformations)
     - [Array transformations](#array-transformations)
     - [Array Splitting](#array-splitting)
@@ -142,7 +143,7 @@ As you probably noticed  we will have to play attention to the type of the origi
 
 This type of obfuscation may not be the most sophisticated ever written, but it's enough to learn the basics of LLVM bytecode obfuscation and maybe to annoy people in reverse engineering for a few minutes... until they use a nicely crafted [miasm](https://code.google.com/archive/p/miasm/) script!
 
-### Data splitting and merging
+### Data splitting 
 The process of **data splitting / merging** involves dividing a value into several parts and then combining them when needed. To put it another way, it distributes the information of one variable into several new variables. 
 For example, a boolean variable can be split into two boolean variables, and performing logical operations on them can get the original value.
 
@@ -154,7 +155,7 @@ $$
 \text{part2} = \left(\text{original} \gg 8\right) \land 0xFF
 $$
 
-
+### Data merging
 Data merging, on the other hand, aggregates several variables into one variable.
 When needed, the parts are merged as follows:
 
