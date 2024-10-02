@@ -336,7 +336,6 @@ where:
 - `C`  is the ciphertext
 - `P`  is the plaintext
 - `K`  is the encryption key.
-<br><br>
 
 2. **Elliptic Curve Cryptography (ECC)**: ECC is based on the mathematics of elliptic curves and provides a higher level of security with smaller key sizes. 
 It is particularly effective for scenarios where computational efficiency is critical.
@@ -350,9 +349,29 @@ where:
 - `k`  is a randomly chosen integer
 - `P`  is a point on the elliptic curve.
 
-> [!IMPORTANT]
+> [!WARNING]
 > While encryption adds a layer of security, it also significantly increases the complexity of a program.
 > Therefore, it is essential to weigh the benefits of encryption against the potential impact on performance and maintainability.
 > In some cases, simpler obfuscation techniques may suffice to deter reverse engineering without the overhead of complex encryption algorithms.
 > 
 > Ultimately, the choice of how to obfuscate sensitive strings must be informed by a thorough understanding of the potential threats, the capabilities of the attacker, and the operational context of the application.
+
+### Bogus Control Flows
+
+Bogus control flows refer to the control flows that are deliberately added to a program but will never be executed. These are often introduced as a technique to obfuscate the code, making it more difficult for an attacker to analyze or reverse engineer the software. By inserting paths that do not lead to actual execution, developers can confuse static analysis tools and human reviewers alike.
+
+> [!WARNING]
+> The inclusion of bogus control flows can significantly increase the complexity of the program. While this can serve as a protective measure, it may also lead to unintended consequences such as reduced maintainability and difficulty in debugging.
+> > Refer to [McCabe's complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity) or either to [Harrison's metrics](https://dl.acm.org/doi/10.1145/947825.947829)
+
+Before transformation:
+```mermaid
+graph TD;
+    A[entry] --> B[Original];
+    B --> C[return];
+```
+
+After transformation:
+
+
+### Numerical Schemes
