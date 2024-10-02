@@ -4,6 +4,8 @@
 - [Introduction](#introduction)
   - [LLVM: A Compiler Infrastructure Overview](#llvm-a-compiler-infrastructure-overview)
     - [OLLVM: Turning Intermediate Representation Into Atrocities](#ollvm-turning-intermediate-representation-into-atrocities)
+  
+    <br>
 
 - [Obfuscation: The Art of Mathematical Deception](#obfuscation-the-art-of-mathematical-deception)
   - [What really is obfuscation ?](#what-really-is-obfuscation-)
@@ -12,6 +14,9 @@
     - [Data splitting and merging](#data-splitting-and-merging)
     - [Variable transformations](#variable-transformations)
     - [Array transformations](#array-transformations)
+    - [Array splitting](#array-splitting)
+    - [Array merging](#array-merging)
+    - [Data encoding](#data-encoding)
 
 ## Introduction
 As part of my work-study program as a reverse engineer, I'm in charge of analyzing the various layers of obfuscation in compiled code through the interfaces of the Tigress and OLLVM compilers.
@@ -62,13 +67,13 @@ According to a thesis submitted for the degree of Doctor of Philosophy at the Un
 - **Data-Structure Complexity** — the complexity increases with the complexity of the static data structures declared in a program. For example, the complexity of an array increases with the number of dimensions and with the complexity of the element type.
 
 Using such metrics, Collberg  measure the potency of an obfuscation as follows. 
-Let: **_T_** be a transformation which maps a program **_P_** to a program **_P'_**.  The potency of a transformation **_T_** with respect to the program **_P_** is defined to be:
+Let: `T` be a transformation which maps a program `P` to a program `P'`.  The potency of a transformation `T` with respect to the program `P` is defined to be:
 
 $$
 T_{\text{pot}}(P) = \frac{E(P')}{E(P)} - 1
 $$
 
-where **_E(P)_** is the complexity of **_P_** (using an appropriate metric). **_T_** is said to be a potent obfuscating transformation if :
+where `E(P)` is the complexity of `P` (using an appropriate metric). `T` is said to be a potent obfuscating transformation if :
 
 $$
 ( T_{\text{pot}}(P) > 0 )
@@ -78,10 +83,10 @@ $$
 (i.e., if \space ( E(P') > E(P) ))
 $$
 
-In, **_P_** and **_P'_** are not required to be equally efficient, it is stated that many of the transformations given will result in **_P'_** being slower or using more memory than **_P_**.  Other properties that Collberg measure are:
+In, `P` and `P'` are not required to be equally efficient, it is stated that many of the transformations given will result in `P'` being slower or using more memory than `P`.  Other properties that Collberg measure are:
 
 - **Resilience** - this measures how well a transformation survives an attack from a deobfuscator. Resilience takes into account the amount of time required to construct a deobfuscator and the execution time and space actually required by the deobfuscator.
-- **Execution Cost** - this measures the extra execution time and space of an obfuscated program **_P'_** compared with the original program **_P_**.
+- **Execution Cost** - this measures the extra execution time and space of an obfuscated program `P'` compared with the original program `P`.
 - **Quality** - this combines potency, resilience, and execution cost to give an overall measure.
 
 These three properties are measured informally on a non-numerical scale (e.g., for resilience, the scale is trivial, weak, strong, full, one-way).
@@ -102,15 +107,15 @@ if (¬p ∧ q) { B; };
 if (¬p ∧ ¬q) { C; }
 ```
 
-These two fragments are equivalent if **_A_** leaves the value of **_p_** unchanged and **_b_** leaves **_p_** and **_q_** unchanged. If we transform steps (1) to steps (2), then the cyclomatic complexity is increased, but the nesting complexity is decreased. 
+These two fragments are equivalent if `A` leaves the value of `p` unchanged and `b` leaves `p` and `q` unchanged. If we transform steps (1) to steps (2), then the cyclomatic complexity is increased, but the nesting complexity is decreased. 
 Then, which fragment is more obfuscated?
 
 Barak et al. take a more formal approach to obfuscation; their notion of obfuscation is as follows. 
-An obfuscator **_O_** is a “compiler” which takes as input a program **_P_** and produces a new program ***_O(P)_*** such that for every **_P_**:
+An obfuscator `O` is a “compiler” which takes as input a program `P` and produces a new program *`O(P)`* such that for every `P`:
 
-- **Functionality** - **_O(P)_** computes the same function as **_P_**.
-- **Polynomial Slowdown** - the description length and running time of **_O(P)_** are at most polynomially larger than that of **_P_**.
-- **“Virtual black box” property** - “Anything that can be efficiently computed from **_O(P)_** can be efficiently computed given oracle access to **_P_**”.
+- **Functionality** - `O(P)` computes the same function as `P`.
+- **Polynomial Slowdown** - the description length and running time of `O(P)` are at most polynomially larger than that of `P`.
+- **“Virtual black box” property** - “Anything that can be efficiently computed from `O(P)` can be efficiently computed given oracle access to `P`”.
 
 With this definition, Barak et al. construct a family of functions that is unobfuscatable in the sense that there is no way of obfuscating programs that compute these functions. The main result of is that their notion of obfuscation is impossible to achieve.
 This definition of obfuscation, in particular the “Virtual Black Box” property, is evidently too strong for our purposes, and so we consider a weaker notion. We do not consider our programs as being “black boxes,” as we assume that any attacker can inspect and modify our code. Also, we would like an indication of how “good” an obfuscation is.
@@ -129,9 +134,9 @@ $$
 $$
 
 Where:
-- **_p1_** and **_p2_** be _distinct_ prime numbers.
-- **_a1_** and **_a2_** be _distinct_ strictly positive random numbers.
-- **_x_** and **_y_** be two variables picked from the program (they have to be reachable from the obfuscation instructions).
+- `p1` and `p2` be _distinct_ prime numbers.
+- `a1` and `a2` be _distinct_ strictly positive random numbers.
+- `x` and `y` be two variables picked from the program (they have to be reachable from the obfuscation instructions).
 
 The expression will always return a boolean zero **(false)**. The idea is to insert this test into our code, just before the 0 we want to obfuscate and to replace this 0 by the result of our comparison.
 As you probably noticed  we will have to play attention to the type of the original 0 and make sure we cast the result of our expression to its type.
@@ -161,8 +166,8 @@ $$
 This makes code analysis more difficult for attackers, as the original value is never directly exposed.
 
 ### Variable transformations
-To continue with variables and code complexity, we'll show how to transform an integer variable **_i_** within a method.
-To do this, we define two functions **_f_** and **_g_**:
+To continue with variables and code complexity, we'll show how to transform an integer variable `i` within a method.
+To do this, we define two functions `f` and `g`:
 
 $$
 f :: X → Y
@@ -176,7 +181,7 @@ Where:
 * `X ⊆ Z` , this represents the set of values that I take. 
 
 We require that g is a left inverse of f (and so f needs to be injective).<br>
-If **_f_** is bijective (injective and surjective), then **_g_** is often called the inverse function of **_f_**. This means that:
+If `f` is bijective (injective and surjective), then `g` is often called the inverse function of `f`. This means that:
 
 $$
 g(f(x)) = x \quad \text{for all } x \in X
@@ -190,8 +195,8 @@ $$
 
 To replace the variable i with a new variable, j say, of type Y we need to perform two kinds of replacement depending on whether we have an assignment to i or use of i. 
 An  assignment to i is a statement of the form i = V and a use of i is an occurrence of i which is not an assignment. The two replacements are : <br>
-* Any assignments of **_i_** of the form `i = V` ar replace by `j = f(V)`
-* Any uses of **_i_** are replaced by a *while* loop.
+* Any assignments of `i` of the form `i = V` ar replace by `j = f(V)`
+* Any uses of `i` are replaced by a *while* loop.
 
 In other therms, this replacements can be used to obfuscate a *while* loop. [Look at this file for an example](src/variable-transformations.c)
 
@@ -212,3 +217,74 @@ We could fold a 1-dimensional array of size m × n into a 2-dimensional array of
  
 For example, we may require that a whole array is not passed to another method or that elements of the array do not throw exceptions.
 
+### Array Splitting
+The principle of array splitting is the same as [data splitting](#data-splitting-and-merging) but applied to arrays. Collberg gave an example of a structural change called an "array split":
+
+```c
+int[] A  = new int[10];
+int[] A1 = new int[5];
+int[] A2 = new int[5];
+
+// Original assignment
+A[i] = ...;
+
+// Split assignment
+if ((i % 2) == 0) {
+    A1[i / 2] = ...;
+} else {
+    A2[i / 2] = ...;
+}
+```
+
+To generalize this transformation, we define a way to split an array `A` of size `n` into two new arrays, `B1` and `B2`. We use the following functions:
+
+- `ch(i)` - a choice function that determines if an element from `A` should go into `B1` or `B2`
+- `f1(i)` - a function that maps an index from `A` to `B1`
+- `f2(i)` - a function that maps an index from `A` to `B2`
+
+Let `B1` and `B2` be of sizes `m1` and `m2` respectively, where `m1 + m2 >= n`. <br>
+Then, we can represent the relationship between `A`, `B1`, and `B2` as follows:
+
+- If `ch(i)` is true, `A[i]` is assigned to `B1[f1(i)]`
+- Otherwise, `A[i]` is assigned to `B2[f2(i)]`
+
+This relationship can be represented by:
+
+$$
+A[i] =
+\begin{cases}
+    B_1[f_1(i)] & \text{if } ch(i) \\
+    B_2[f_2(i)] & \text{otherwise}
+\end{cases}
+$$
+
+To ensure that there are no index clashes, `f1` must be injective for the values for which `ch(i)` is true, and similarly for `f2`.
+
+This relationship can be generalized so that `A` could be split into more than two arrays. In this case, `ch(i)` becomes a choice function that determines which array each element should be assigned to.
+
+For instance, in the example above:
+
+$$
+A[i] =
+\begin{cases}
+    B_1[i \, \text{div} \, 2] & \text{if } i \text{ is even} \\
+    B_2[i \, \text{div} \, 2] & \text{if } i \text{ is odd}
+\end{cases}
+$$
+
+### Array Merging
+The process of array merging is essentially the reverse of [array splitting](#array-splitting). Just as we split an array into two or more arrays, we can merge split arrays back into one. The order of elements in the new array must be determined based on the original split criteria.
+
+For example, suppose we have arrays `B1` of size `m1` and `B2` of size `m2`, and a new array `A` of size `m1 + m2`. We can define a relationship between these arrays as follows:
+
+$$
+A[i] =
+\begin{cases}
+    B_1[i] & \text{if } i < m_1 \\
+    B_2[i - m_1] & \text{if } i \geq m_1
+\end{cases}
+$$
+
+This transformation is analogous to the concatenation of two sequences (lists).
+
+### Data encoding
