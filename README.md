@@ -405,7 +405,8 @@ while (x > 1) {
     }
     
     // always reachable
-    if(x == 1) originalCodes(); 
+    if(x == 1) originalCodes();
+}
 ```
 No matter how we initialize `x`, the program terminates with `x=1`, and originalCodes can always be executed.
 
