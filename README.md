@@ -339,10 +339,6 @@ where:
 
 Bogus control flows refer to the control flows that are deliberately added to a program but will never be executed. These are often introduced as a technique to obfuscate the code, making it more difficult for an attacker to analyze or reverse engineer the software. By inserting paths that do not lead to actual execution, developers can confuse static analysis tools and human reviewers alike.
 
-> [!WARNING]
-> The inclusion of bogus control flows can significantly increase the complexity of the program. While this can serve as a protective measure, it may also lead to unintended consequences such as reduced maintainability and difficulty in debugging.
-> > Refer to [McCabe's complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity) or either to [Harrison's metrics](https://dl.acm.org/doi/10.1145/947825.947829)
-
 Before transformation:
 ```mermaid
 graph TD;
@@ -360,6 +356,11 @@ graph TD;
     C -- true --> return;
     D --> C;
 ```
+
+> [!WARNING]
+> The inclusion of bogus control flows can significantly increase the complexity of the program. While this can serve as a protective measure, it may also lead to unintended consequences such as reduced maintainability and difficulty in debugging.
+> > Refer to [McCabe's complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity) or either to [Harrison's metrics](https://dl.acm.org/doi/10.1145/947825.947829)
+
 
 ### Numerical Schemes
 A numerical scheme compose opaque predicates with mathematical expressions (and we love maths there).
