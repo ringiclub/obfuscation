@@ -71,12 +71,12 @@ Another useful measure is the **stealth** of an obfuscation. An obfuscation is s
 The metrics mentioned above are not always suitable to measure the degree of obfuscation. Consider these two code fragments:
 
 1. 
-```c
+```c++
 if (p) {A; } else { if (q) {B; } else {C; }}
 ```
 
 2. 
-```c
+```c++
 if (p) { A; };
 if (¬p ∧ q) { B; };
 if (¬p ∧ ¬q) { C; }
@@ -195,7 +195,7 @@ For example, we may require that a whole array is not passed to another method o
 ### Array Splitting
 The principle of array splitting is the same as [data splitting](#data-splitting-and-merging) but applied to arrays. Collberg gave an example of a structural change called an "array split":
 
-```c
+```c++
 int[] A  = new int[10];
 int[] A1 = new int[5];
 int[] A2 = new int[5];
@@ -362,7 +362,7 @@ A numerical scheme compose opaque predicates with mathematical expressions (and 
 For example, `7x²-1 ≠ y²` is constantly `true` fort all integers `x` and `y`. We can directly employ such opaque predicates to introduce **bogus control flows**.
 
 With the following code we can demonstrate an example in which the opaque predicate guarantees that the bogus control flow (the else branch) will not be executed:
-```c
+```c++
 // Opaque constants
 
 int a, b;
