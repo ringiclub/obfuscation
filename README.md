@@ -411,11 +411,49 @@ while (x > 1) {
 No matter how we initialize `x`, the program terminates with `x=1`, and originalCodes can always be executed.
 
 ### Probabilistic control flows
+Bogus control flows can make troubles to a static program analysis. However, they are vulnerable to dynamic program analysis because the bogus control flows are inactive.
+The idea of a probabilistic control flows is to adopts a different strategy to tackle the threat. It introduces replications of control flows with the same semantics but different syntax.
+When receiving the same input several times, the program can behave differently for different execution times. The technique is also useful for combating side-channel attacks.
 
+Consider a program with a probabilistic branching mechanism, where each branch replicates the semantics but has different syntactic representations.
+
+- Let `X` be the input to the program.
+- Let `f(X)` represent the computation performed by the program.
+- Let `B1, B2, ..., Bk` represent `k` different branches of control flow, each having the same semantics.
+- Let `P(Bi)` be the probability that branch `Bi` is chosen, such that
+
+
+$$
+\sum_{i=1}^{k} P(B_i) = 1.
+$$
+
+The behavior of the program with probabilistic control flow can be represented as follows:
+$$
+f(X) = \sum_{i=1}^{k} P(B_i) \cdot f_i(X)
+$$
+where:
+- `fi(X)` represents the computation done in branch `Bi`, and `f1(X) = f2(X) = ... = fk(X)`, ensuring the same output for all branches.
+- `P(Bi)` represents the probability of taking branch `Bi`, with `0 <= P(Bi) <= 1` for all `i`.
+
+Since the different branches all compute the same output, the expected value `E[f(X)]` remains equal to the actual output:
+$$
+E[f(X)] = \sum_{i=1}^{k} P(B_i) \cdot f_i(X) = f(X)
+$$
+This formula shows that the program produces the same result regardless of which branch is chosen, but the branching is probabilistic, making the exact execution path unpredictable.
+
+If there are two branches `B1` and `B2`, each taken with equal probability `P(B1) = P(B2) = 0.5`, then:
+$$
+f(X) = 0.5 \cdot f_1(X) + 0.5 \cdot f_2(X) = f(X)
+$$
+This ensures that both branches produce the same output, but the selection of the branch is randomized, which introduces variability in the control flow.
+
+> [!NOTE]
+> The strategy of probabilistic control flows is similar to bogus control flows with contextual opaque predicates.
+> But they are different in nature as contextual opaque predicates introduce dead path, although they do not introduce junk codes.
+> > This strategy adds junk instructions which are not functional. For binaries, we can add no-operation instructions (NOP or 0x00)
 
 
 ### Control flow flattening
-
 
 
 ### Renaming
