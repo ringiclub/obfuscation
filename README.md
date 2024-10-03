@@ -1,8 +1,6 @@
 # Obfuscation analysis
 
 # Table of contents
-- [Obfuscation analysis](#obfuscation-analysis)
-- [Table of contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Obfuscation: The Art of Mathematical Deception](#obfuscation-the-art-of-mathematical-deception)
   - [What really is obfuscation ?](#what-really-is-obfuscation-)
@@ -177,7 +175,7 @@ An  assignment to i is a statement of the form i = V and a use of i is an occurr
 * Any assignments of `i` of the form `i = V` ar replace by `j = f(V)`
 * Any uses of `i` are replaced by a *while* loop.
 
-In other therms, this replacements can be used to obfuscate a *while* loop. [Look at this file for an example](src/variable-transformations.c)
+In other therms, this replacements can be used to obfuscate a *while* loop. [Look at this file for an example](src/analysis/variable-transformations.c)
 
 ### Array transformations
 There are many ways in which arrays can be obfuscated. One of the simplest ways is to change the array indices. 
@@ -197,7 +195,7 @@ We could fold a 1-dimensional array of size m × n into a 2-dimensional array of
 For example, we may require that a whole array is not passed to another method or that elements of the array do not throw exceptions.
 
 ### Array Splitting
-The principle of array splitting is the same as [data splitting](#data-splitting-and-merging) but applied to arrays. Collberg gave an example of a structural change called an "array split":
+The principle of array splitting is the same as [data splitting](#data-splitting) but applied to arrays. Collberg gave an example of a structural change called an "array split":
 
 ```c++
 int[] A  = new int[10];
