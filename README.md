@@ -372,6 +372,14 @@ graph TD;
 ```
 
 After transformation:
-
+```mermaid
+graph TD;
+    A[entry] --> B{condition*};
+    B -- false --> D[altered];
+    B -- true --> C{original};
+    C -- false --> D;
+    C -- true --> return;
+    D --> C;
+```
 
 ### Numerical Schemes
