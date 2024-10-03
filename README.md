@@ -18,6 +18,10 @@
     - [Bogus Control Flows](#bogus-control-flows)
     - [Numerical Schemes](#numerical-schemes)
     - [Probabilistic control flows](#probabilistic-control-flows)
+    - [Control flow flattening](#control-flow-flattening)
+    - [Implicit controls](#implicit-controls)
+    - [Renaming](#renaming)
+  - [Conclusion](#conclusion)
 - [LLVM: A Compiler Infrastructure Overview](#llvm-a-compiler-infrastructure-overview)
 - [OLLVM: Turning Intermediate Representation Into Atrocities](#ollvm-turning-intermediate-representation-into-atrocities)
 
@@ -454,7 +458,117 @@ This ensures that both branches produce the same output, but the selection of th
 
 
 ### Control flow flattening
+A dispatcher-based control determines the next blocks of codes to be executed during runtime. Such controls are essential for control-flow obfuscation because they can hide the original control flows against static program analysis.
+One major dispatcher-based obfuscation approach is control-flow flattening, which transforms codes of depth into shallow one with more complexity.
 
+```c++
+#include <stdio.h>
+
+int a = 1;
+int b = 2;
+
+while (a < 10) {
+    b += a;
+    if (b > 10) {
+        b--;
+    }
+    a++;
+}
+
+printf("%d", b);
+```
+
+See this simple while loop ? We will transform it into another form with switch-case.
+To realize such transformation, the first step is to transform the code into an equivalent representation with if-then-goto statements. 
+
+```c++
+int a = 1;
+int b = 2;
+
+L1: if (!(a < 10)) goto L3; // Check the loop condition
+    b += a;                // Increment b
+    if (!(b > 10)) goto L2; // Check if b exceeds 10
+        b--;               // Decrement b if it does
+L2: a++;                  // Increment a
+    goto L1;              // Repeat the loop
+L3: printf("%d", b);     // Print the result
+
+```
+
+Then modify the goto statements with switch-case statements:
+```c++
+#include <stdio.h>
+
+int main() {
+    int swVar = 1;
+    int a, b;
+
+    switch (swVar) {
+        case 1:
+            a = 1; b = 2;  // Initialize a and b
+            swVar = 2;     // Move to next case
+            break;
+        
+        case 2:
+            if (!(a < 10)) swVar = 6; // If a >= 10, go to case 6
+            else swVar = 3;           // Else, go to case 3
+            break;
+        
+        case 3:
+            b += a;                  // Increment b
+            if (!(b > 10)) swVar = 5; // If b <= 10, go to case 5
+            else swVar = 4;          // Else, go to case 4
+            break;
+        
+        case 4:
+            b--;                     // Decrement b
+            swVar = 5;              // Go to case 5
+            break;
+        
+        case 5:
+            a++;                    // Increment a
+            swVar = 2;             // Go back to case 2
+            break;
+        
+        case 6:
+            printf("%d", b);        // Print the result
+            break;   
+    }
+
+    return 0;
+}
+```
+
+In this way the original program semantics is realized implicitly by controlling the data flow of the switch variable.
+Because the execution order of code blocks is determined by the variable dynamically, one cannot know the control flows without executing the program.
+
+Here is a great schemes to explain what do its look like from tree view:
+![flattening](assets/tree_flattening.webp)
+
+### Implicit controls
+This strategy converts explicit control instructions to implicit ones. It can hinder reverse engineers from addressing the correct control flows. For example, we can replace the control instructions of assembly codes (e.g., jmp and jne) with a combination of mov and other instructions which implement the same control semantics.
+Note that all existing control-flow obfuscation approaches focus on syntactic-level transformation, while the semantic-level protection has rarely been discussed. Although they may demonstrate some resilience to attacks, their obfuscation effectiveness concerning semantic protection remains unclear.
+
+**Original code**
+```asm
+jne target_label
+    ; some code
+target_label:
+    ; code to be executed if jne is taken
+```
+
+**Obfuscated code**
+```asm
+mov rax, 0            ; Set condition variable to 0
+cmp rax, 1            ; Compare it against a constant
+je  continue          ; If equal, jump to continue
+; code to execute if jne would have been taken
+continue:
+    ; some code
+```
+
+Here, the `jne` (jump if not equal) instruction is replaced with a combination of `mov`, `cmp`, and `je`, introducing additional complexity while maintaining the original control flow.
+This semantic-level obfuscation strategy highlights the need for a more comprehensive approach to protect against reverse engineering, focusing not just on syntax but also on the underlying semantics of the code.
 
 ### Renaming
 
@@ -490,7 +604,7 @@ It makes harder for reverse engineers to understand what each part of the code d
 > This type of obfuscation does not alter the actual logic or flow of the program, so it can still be analyzed dynamically.
 > Automated tools like decompilers can sometimes rename identifiers back to more descriptive forms using context-based analysis.
 
-### Obfuscation conclusion
+## Conclusion
 We've seen many, and I mean MANY, types of obfuscation, but don't forget that this is only a small percentage of what we can do to obfuscate a program. These days, there are so many techniques, even private techniques used by big companies for internal projects that they want to keep secret because if you know how to obfuscate a program, then you know how to unobfuscate it!
 
 In this analysis, we've seen the most common types that exist, now let's see what obfuscators OLLVM and TIGRESS have implemented in their systems ;)
