@@ -1,6 +1,8 @@
 # Obfuscation analysis
 
 # Table of contents
+- [Obfuscation analysis](#obfuscation-analysis)
+- [Table of contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Obfuscation: The Art of Mathematical Deception](#obfuscation-the-art-of-mathematical-deception)
   - [What really is obfuscation ?](#what-really-is-obfuscation-)
@@ -13,8 +15,11 @@
     - [Array Splitting](#array-splitting)
     - [Array Merging](#array-merging)
     - [Data Encoding](#data-encoding)
+    - [Bogus Control Flows](#bogus-control-flows)
+    - [Numerical Schemes](#numerical-schemes)
+    - [Probabilistic control flows](#probabilistic-control-flows)
 - [LLVM: A Compiler Infrastructure Overview](#llvm-a-compiler-infrastructure-overview)
-    - [OLLVM: Turning Intermediate Representation Into Atrocities](#ollvm-turning-intermediate-representation-into-atrocities)
+- [OLLVM: Turning Intermediate Representation Into Atrocities](#ollvm-turning-intermediate-representation-into-atrocities)
 
 # Introduction
 As part of my work-study program as a reverse engineer, I'm in charge of analyzing the various layers of obfuscation in compiled code through the interfaces of the Tigress and OLLVM compilers.
@@ -353,12 +358,74 @@ graph TD;
 ```
 
 ### Numerical Schemes
+A numerical scheme compose opaque predicates with mathematical expressions (and we love maths there).
+For example, `7x²-1 ≠ y²` is constantly `true` fort all integers `x` and `y`. We can directly employ such opaque predicates to introduce **bogus control flows**.
+
+With the following code we can demonstrate an example in which the opaque predicate guarantees that the bogus control flow (the else branch) will not be executed:
+```c
+// Opaque constants
+
+int a, b;
+
+if (7 * a * a - 1 != b * b) {
+    // always true
+} else {
+    bogusCodes();
+}
+```
+
+However, attackers would have higher chances to detect them if we employ the same opaque predicates frequently in an obfuscated program.
+That's why nowadays it exist some methods to generate a family of such opaque predicates automatically, such that an obfuscator can choose a unique opaque predicate each time.
+Another mathematical approach with higher security is to employ some crypto functions, such as hash function and homomorphic encryption. 
+
+For example, we can substitute a predicate `x == c` with `H(x) == c_hash` to hide the solution of x for this equation.
+> [!NOTE]
+> Such an approach is generally employed by malware to evade dynamic program analysis
+> We may also employ crypto functions to encrypt equations which cannot be satisfied.
+> However, such opaque predicates incur much overhead.
+
+To compose opaque constants resistant to static analysis, [Moser](https://doi.org/10.1109/acsac.2007.21) suggested employing 3-SAT problems, which are NP-hard.
+This is possible because on can have efficient algorithms to compose such hard problems. It even exists a demonstration on how to compose such opaque predicates with k-clique problems.
+
+To compose opaque constants resistant to dynamic analysis, [Wang](https://doi.org/10.1007/978-3-642-23822-2_12) proposed to compose opaque predicates with a form of unsolved conjectures which loop for many times.
+Because loops are challenging for dynamic analysis, the approach in nature should be resistant to dynamic analysis.
+
+Examples of such conjectures include Collatz conjecture, `5x+1` conjecture, Matthews conjecture. 
+See the code below to understand how to employ Collatz conjecture to introduce bogus control flows.
+```c++
+// Collatz conjecture
+
+int x; // for any x > 0
+
+while (x > 1) {
+    if (x % 2 == 1) { // x is odd
+        x *= 3+1;
+    } else {
+        x /= 2;
+    }
+    
+    // always reachable
+    if(x == 1) originalCodes(); 
+```
+No matter how we initialize `x`, the program terminates with `x=1`, and originalCodes can always be executed.
+
+### Probabilistic control flows
 
 
+### Control flow flattening
 
 
+### Renaming
 
 
+### Obfuscation conclusion
+We saw a lot, and I mean, a LOT of obfuscation types, but don't forget that it's only a few percentage of what we can do to obfuscate a program.
+Nowadays, it exists so many techniques, even private techniques used by big company for internal project, and they want to keep it secret because if you know how to obfuscate a program then you know how to desobfuscate it !
+
+In this markdown analysis, we saw many of the most commons obfuscation type that's exists, now let's see what the OLLVM and TIGRESS obfuscators had implements in their system ;)
+
+> [!NOTE]
+> Little reminder that the point of all this previous long and "difficult" explanation was to understand obfuscation and be able to identity some techniques when facing obfuscated code
 
 
 # LLVM: A Compiler Infrastructure Overview
