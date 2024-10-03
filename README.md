@@ -453,11 +453,9 @@ It makes harder for reverse engineers to understand what each part of the code d
 > Automated tools like decompilers can sometimes rename identifiers back to more descriptive forms using context-based analysis.
 
 ### Obfuscation conclusion
-We saw a lot, and I mean, a LOT of obfuscation types, but don't forget that it's only a few percentage of what we can do to obfuscate a program.
-Nowadays, it exists so many techniques, even private techniques used by big company for internal project, and they want to keep it secret because if you know how to obfuscate a program then you know how to desobfuscate it !
+We've seen many, and I mean MANY, types of obfuscation, but don't forget that this is only a small percentage of what we can do to obfuscate a program. These days, there are so many techniques, even private techniques used by big companies for internal projects that they want to keep secret because if you know how to obfuscate a program, then you know how to unobfuscate it!
 
-In this markdown analysis, we saw many of the most commons obfuscation type that's exists, now let's see what the OLLVM and TIGRESS obfuscators had implements in their system ;)
-
+In this analysis, we've seen the most common types that exist, now let's see what obfuscators OLLVM and TIGRESS have implemented in their systems ;)
 > [!NOTE]
 > Little reminder that the point of all this previous long and "difficult" explanation was to understand obfuscation and be able to identity some techniques when facing obfuscated code
 
