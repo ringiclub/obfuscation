@@ -413,11 +413,44 @@ No matter how we initialize `x`, the program terminates with `x=1`, and original
 ### Probabilistic control flows
 
 
+
 ### Control flow flattening
+
 
 
 ### Renaming
 
+The obfuscation method of renaming involves changing the names of variables, methods, classes, and packages in the code to make it more difficult for an attacker to understand its purpose and logic.
+1. **Variables**: Rename variables to meaningless names, like `a`, `b`, or random strings (`x9d3`). This removes the context provided by descriptive variable names.
+2. **Methods**: Rename methods to abstract names (`func1`, `doXyz`). This makes it unclear what the method does, hiding the functionality.
+3. **Classes and Packages**: Rename classes and packages to obscure identifiers. This reduces the ability to understand the relationships between components.
+
+**Before**:
+```java
+class UserManager {
+  String userName;
+  
+  void setUserName(String name) {
+      this.userName = name;
+  }
+}
+```
+
+**After**:
+```java
+class X1 {
+    String a;
+    
+    void b(String c) {
+        this.a = c;
+    }
+}
+```
+
+It makes harder for reverse engineers to understand what each part of the code does, and it also protects individual property by hiding meaningful names.
+> [!WARNING]
+> This type of obfuscation does not alter the actual logic or flow of the program, so it can still be analyzed dynamically.
+> Automated tools like decompilers can sometimes rename identifiers back to more descriptive forms using context-based analysis.
 
 ### Obfuscation conclusion
 We saw a lot, and I mean, a LOT of obfuscation types, but don't forget that it's only a few percentage of what we can do to obfuscate a program.
