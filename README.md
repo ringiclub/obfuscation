@@ -1,11 +1,7 @@
 # Obfuscation analysis
 
 # Table of contents
-- [Obfuscation analysis](#obfuscation-analysis)
-- [Table of contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [LLVM: A Compiler Infrastructure Overview](#llvm-a-compiler-infrastructure-overview)
-    - [OLLVM: Turning Intermediate Representation Into Atrocities](#ollvm-turning-intermediate-representation-into-atrocities)
+- [Introduction](#introduction)
 - [Obfuscation: The Art of Mathematical Deception](#obfuscation-the-art-of-mathematical-deception)
   - [What really is obfuscation ?](#what-really-is-obfuscation-)
   - [Examples of obfuscations](#examples-of-obfuscations)
@@ -17,8 +13,10 @@
     - [Array Splitting](#array-splitting)
     - [Array Merging](#array-merging)
     - [Data Encoding](#data-encoding)
+- [LLVM: A Compiler Infrastructure Overview](#llvm-a-compiler-infrastructure-overview)
+    - [OLLVM: Turning Intermediate Representation Into Atrocities](#ollvm-turning-intermediate-representation-into-atrocities)
 
-## Introduction
+# Introduction
 As part of my work-study program as a reverse engineer, I'm in charge of analyzing the various layers of obfuscation in compiled code through the interfaces of the Tigress and OLLVM compilers.
 The final rendering is a GUI overlay for three types of decompiler (IDA Pro, Ghidra and Binary Ninja) to enable real-time code clean-up with a native C plugin or an external Python script (which I'll have to justify with a benchmark).
 
@@ -26,34 +24,6 @@ Starting from the beginning, software obfuscation is a method to make programs m
 No matter the reason, there are multiple ways to go about in making the software more difficult to understand, from fully manual modifications to advanced commercial obfuscation frameworks.
 
 Before trying to de-obfuscate anything and everything, you need to understand how obfuscation works, its different application and abstraction layers, and above all how it works on LLVM and Tigress.
-
-## LLVM: A Compiler Infrastructure Overview
-LLVM is a compiler infrastructure. To understand what it is exactly we need to dive into compilation <br>
-process (this is most accurate for unmanaged code like C/C++).
-
-We can distinguish three steps of assembly generation from the source code:
-
-1. Front end, which includes:
-    * lexer, which performs lexical analysis of the raw code and produces tokens (strings with certain meaning)
-    * parser, which produces an abstract syntax tree (tokens grouped in a tree which represents the actual algorithm implemented in the source code)
-    * semantic analysis (mainly type checking), during which the AST is checked for errors like wrong use of types or use of variables before initialization
-    * generation of intermediate representation (IR), usually based on AST
-2. Middle-end, which aims at reducing code complexity for example by precalculating stuff. It must not change the algorithm/program itself.
-3. Back end, which translates the IR to expected output (assembly or bytecode).
-
-The core of LLVM is the optimizer but the project also includes a compiler front end - clang - which is intended to be used with the LLVM toolchain.
-
-![LLVM-ASM](assets/llvm-asm.png)  
-
-### OLLVM: Turning Intermediate Representation Into Atrocities
-Now let's talk about obfuscation ! Now that we know how LLVM works, we can quickly get some ideas about the various possible layers of obfuscation.
-Technically, obfuscation can be performed at any abstraction level of a program. In the case of LLVM, the most common is on bytecode (the IR level).
-
-> [!NOTE]
-> 'But why obfuscate the LLVM bytecode? Why not the source code? Or the binary?', you may ask.
-
-Regarding the engineering aspects, it is because there are lots of front-ends converting different languages into the same LLVM bytecode (Clang/Clang++ for C/C++, Mono LLVM for C#, Python and so on). 
-Hence, by working at the bytecode level, it is possible to obfuscate programs written in many languages without even knowing them. Another good thing is that the obfuscation can be easily integrated with the existing compilation chains: just add a few obfuscation flags.
 
 # Obfuscation: The Art of Mathematical Deception
 A common practice in obfuscation is to use mathematics... after all, that's what computing is all about. 
@@ -143,7 +113,7 @@ As you probably noticed  we will have to play attention to the type of the origi
 
 This type of obfuscation may not be the most sophisticated ever written, but it's enough to learn the basics of LLVM bytecode obfuscation and maybe to annoy people in reverse engineering for a few minutes... until they use a nicely crafted [miasm](https://code.google.com/archive/p/miasm/) script!
 
-### Data splitting 
+### Data splitting
 The process of **data splitting / merging** involves dividing a value into several parts and then combining them when needed. To put it another way, it distributes the information of one variable into several new variables. 
 For example, a boolean variable can be split into two boolean variables, and performing logical operations on them can get the original value.
 
@@ -383,3 +353,39 @@ graph TD;
 ```
 
 ### Numerical Schemes
+
+
+
+
+
+
+
+
+# LLVM: A Compiler Infrastructure Overview
+LLVM is a compiler infrastructure. To understand what it is exactly we need to dive into compilation <br>
+process (this is most accurate for unmanaged code like C/C++).
+
+We can distinguish three steps of assembly generation from the source code:
+
+1. Front end, which includes:
+    * lexer, which performs lexical analysis of the raw code and produces tokens (strings with certain meaning)
+    * parser, which produces an abstract syntax tree (tokens grouped in a tree which represents the actual algorithm implemented in the source code)
+    * semantic analysis (mainly type checking), during which the AST is checked for errors like wrong use of types or use of variables before initialization
+    * generation of intermediate representation (IR), usually based on AST
+2. Middle-end, which aims at reducing code complexity for example by precalculating stuff. It must not change the algorithm/program itself.
+3. Back end, which translates the IR to expected output (assembly or bytecode).
+
+The core of LLVM is the optimizer but the project also includes a compiler front end - clang - which is intended to be used with the LLVM toolchain.
+
+![LLVM-ASM](assets/llvm-asm.png)
+
+# OLLVM: Turning Intermediate Representation Into Atrocities
+Now let's talk about obfuscation ! Now that we know how LLVM works, we can quickly get some ideas about the various possible layers of obfuscation.
+Technically, obfuscation can be performed at any abstraction level of a program. In the case of LLVM, the most common is on bytecode (the IR level).
+
+> [!NOTE]
+> 'But why obfuscate the LLVM bytecode? Why not the source code? Or the binary?', you may ask.
+
+Regarding the engineering aspects, it is because there are lots of front-ends converting different languages into the same LLVM bytecode (Clang/Clang++ for C/C++, Mono LLVM for C#, Python and so on).
+Hence, by working at the bytecode level, it is possible to obfuscate programs written in many languages without even knowing them. Another good thing is that the obfuscation can be easily integrated with the existing compilation chains: just add a few obfuscation flags.
+
