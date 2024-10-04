@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
     for(int i = 0; i < part1; i++) {
         firstHalf[i] = array[i];
     }
+
     for(int i = 0; i < part2; i++) {
         secondHalf[i] = array[i + part1];
     }
