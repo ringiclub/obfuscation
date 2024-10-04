@@ -441,15 +441,19 @@ where:
 - `P(Bi)` represents the probability of taking branch `Bi`, with `0 <= P(Bi) <= 1` for all `i`.
 
 Since the different branches all compute the same output, the expected value `E[f(X)]` remains equal to the actual output:
+
 $$
 E[f(X)] = \sum_{i=1}^{k} P(B_i) \cdot f_i(X) = f(X)
 $$
+
 This formula shows that the program produces the same result regardless of which branch is chosen, but the branching is probabilistic, making the exact execution path unpredictable.
 
 If there are two branches `B1` and `B2`, each taken with equal probability `P(B1) = P(B2) = 0.5`, then:
+
 $$
 f(X) = 0.5 \cdot f_1(X) + 0.5 \cdot f_2(X) = f(X)
 $$
+
 This ensures that both branches produce the same output, but the selection of the branch is randomized, which introduces variability in the control flow.
 
 > [!NOTE]
