@@ -541,7 +541,7 @@ int main() {
 In this way the original program semantics is realized implicitly by controlling the data flow of the switch variable.
 Because the execution order of code blocks is determined by the variable dynamically, one cannot know the control flows without executing the program.
 
-Here is a great schemes to explain what do its look like from tree view:
+Here is a great schemes to explain what do its look like from tree view:<br>
 ![flattening](assets/tree_flattening.webp)
 
 ### Implicit controls
