@@ -431,9 +431,11 @@ $$
 $$
 
 The behavior of the program with probabilistic control flow can be represented as follows:
+
 $$
 f(X) = \sum_{i=1}^{k} P(B_i) \cdot f_i(X)
 $$
+
 where:
 - `fi(X)` represents the computation done in branch `Bi`, and `f1(X) = f2(X) = ... = fk(X)`, ensuring the same output for all branches.
 - `P(Bi)` represents the probability of taking branch `Bi`, with `0 <= P(Bi) <= 1` for all `i`.
@@ -638,4 +640,3 @@ Technically, obfuscation can be performed at any abstraction level of a program.
 
 Regarding the engineering aspects, it is because there are lots of front-ends converting different languages into the same LLVM bytecode (Clang/Clang++ for C/C++, Mono LLVM for C#, Python and so on).
 Hence, by working at the bytecode level, it is possible to obfuscate programs written in many languages without even knowing them. Another good thing is that the obfuscation can be easily integrated with the existing compilation chains: just add a few obfuscation flags.
-
