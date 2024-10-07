@@ -1,21 +1,25 @@
 #include <stdio.h>
 #include <string.h>
 
+#define PART1 2
+#define PART2 3
+#define ARRAYSIZE 5  // Fixed size for the demonstration
+
 int main(int argc, char **argv) {
     // Check if a pointer is null
     int *ptr = NULL;
 
     // Use a const that can be split
-    const int part1 = 2;
-    const int part2 = 3;
-    const int arraySize = part1 + part2; // 5
+    const int part1 = PART1;
+    const int part2 = PART2;
+    const int arraySize = ARRAYSIZE; // 5
 
     // Use a fixed-size array
-    int array[5] = {1, 2, 3, 4, 5};
+    int array[ARRAYSIZE] = {1, 2, 3, 4, 5};
 
-    // Use an array that can be split
-    int firstHalf[part1];
-    int secondHalf[part2];
+    // Use a fixed-size array that can be split
+    int firstHalf[PART1];
+    int secondHalf[PART2];
 
     // Splitting the array into two
     for(int i = 0; i < part1; i++) {
@@ -27,7 +31,7 @@ int main(int argc, char **argv) {
     }
 
     // Use two arrays that can be merged into one
-    int mergedArray[arraySize];
+    int mergedArray[ARRAYSIZE];
     for(int i = 0; i < part1; i++) {
         mergedArray[i] = firstHalf[i];
     }
