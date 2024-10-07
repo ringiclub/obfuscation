@@ -615,7 +615,7 @@ We've seen many, and I mean MANY, types of obfuscation, but don't forget that th
 In this analysis, we've seen the most common types that exist, now let's see what obfuscators OLLVM and TIGRESS have implemented in their systems ;)
 > [!NOTE]
 > Little reminder that the point of all this previous long and "difficult" explanation was to understand obfuscation and be able to identity some techniques when facing obfuscated code
-
+> The list goes on, especially for the obfuscator named [Tigress, check section "Transformations"](https://tigress.wtf).
 
 # LLVM: A Compiler Infrastructure Overview
 LLVM is a compiler infrastructure. To understand what it is exactly we need to dive into compilation <br>
