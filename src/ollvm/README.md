@@ -14,7 +14,7 @@ We can distinguish three steps of assembly generation from the source code:
 
 The core of LLVM is the optimizer but the project also includes a compiler front end - clang - which is intended to be used with the LLVM toolchain.
 
-![LLVM-ASM](assets/llvm-asm.png)
+![LLVM-ASM](../../assets/llvm-asm.png)
 
 # OLLVM: Turning Intermediate Representation Into Atrocities
 Now let's talk about obfuscation ! Now that we know how LLVM works, we can quickly get some ideas about the various possible layers of obfuscation.
