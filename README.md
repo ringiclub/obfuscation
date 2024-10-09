@@ -21,7 +21,7 @@ Before trying to de-obfuscate anything and everything, you need to understand ho
 For a detailed analysis, please refer to the following dedicated READMEs:
 
 - [Obfuscation Analysis](src/analysis/README.md)
-- [Tigress Analysis](src/tigress/README.md)
+- [Tigress Analysis](src/tigress/TEST)
 - [OLLVM Analysis](src/ollvm/README.md)
 - [Benchmarks](benchs/README.md)
 
@@ -33,7 +33,7 @@ The detailed analysis of general obfuscation techniques is documented [here](src
 
 ## Tigress Analysis
 
-The detailed analysis of Tigress obfuscation techniques is documented [here](src/tigress/README.md).
+The detailed analysis of Tigress obfuscation techniques is documented [here](src/tigress/TEST).
 
 ## OLLVM Analysis
 
