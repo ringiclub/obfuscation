@@ -1337,3 +1337,270 @@
 </td>
 </tr>
 </table>
+
+### Anti Analysis Transformations: AntiAliasAnalysis
+<table>
+    <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 60%;">
+    </colgroup>
+<tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
+<tr>
+<td>--Transform</td>
+<td>AntiAliasAnalysis</td>
+<td> Transform the code by replacing direct function calls with indirect ones, making alias analysis become less precise. </td>
+</tr>
+<tr>
+<td>--AntiAliasAnalysisObfuscateIndex</td>
+<td><a>BOOLSPEC</a></td>
+<td> Use opaque expressions to compute function addresses. Default=true.</td>
+</tr>
+<tr>
+<td>--AntiAliasAnalysisBogusEntries</td>
+<td><a>BOOLSPEC</a></td>
+<td> Add bogus function addresses, and bogus updates to them. Default=true.</td>
+</tr>
+</table>
+
+### Anti Analysis Transformations: AntiTaintAnalysis
+<table>
+    <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 60%;">
+    </colgroup>
+<tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
+<tr>
+<td>--Transform</td>
+<td>AntiTaintAnalysis</td>
+<td> Transform the code by inserting <em>implicit flow</em> such that dynamic taint analysis becomes less precise. </td>
+</tr>
+<tr>
+<td>--AntiTaintAnalysisKinds</td>
+<td>argv, sysCalls, vars, *</td>
+<td> Comma-separated list of the kinds of anti-taint analysis transformations to employ. Default=none.
+<ul>
+   <li> argv = Insert implicit flow from argv and argc in main.
+   <li> sysCalls = Insert implicit flow from output variables of common system calls.
+   <li> vars = Insert implicit flow to a variable whenever it is written to. Use --LocalVariables=.. and --GlobalVariables=... to specify which variables should be copied.
+   <li> * = Same as all options turned on.
+</ul>
+</td>
+</tr>
+<tr>
+<td>--AntiTaintAnalysisSysCalls</td>
+<td>getpid, scanf, *</td>
+<td> Comma-separated list of the system calls whose output should be passed through implicit flow. Only two calls are currently implemented. Default=all system calls.
+<ul>
+   <li> getpid = Insert implicit flow to the output of getpid.
+   <li> scanf = Insert implicit flow to the output of scanf.
+   <li> * = Same as all options turned on.
+</ul>
+</td>
+</tr>
+<tr>
+<td>--AntiTaintAnalysisImplicitFlow</td>
+<td>single, compose, select, majority, repeat, until</td>
+<td> S-expression of the implicit flow combiners to use. Default=none.
+<ul>
+   <li> single = The expression (single a) inserts a simple implicit flow, where a is one of
+   <li> compose = The S-expression (compose a b c) inserts an implicit flow where the output of a
+   <li> select = The S-expression (select a b c) inserts an implicit flow that picks among a,b,c
+   <li> majority = The S-expression (majority a b c) inserts an implicit flow that uses majority logic
+   <li> repeat = The S-expression (repeat a n) (where n is an integer) is equivalent to
+   <li> until = The S-expression (until a m n) (where m,n are integers, m<n)
+</ul>
+</td>
+</tr>
+</table>
+
+### Anti Analysis Transformations: Opaque Predicate
+<table>
+    <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 60%;">
+    </colgroup>
+<tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
+<tr>
+<td>--Transform</td>
+<td>InitOpaque</td>
+<td> Add opaque initialization code. This initialization code <em>has to</em> be added to a function that gets called <em>before</em> any uses of opaque predicates, usually, but not necessarily, to main. </td>
+</tr>
+<tr>
+<td>--InitOpaqueStructs</td>
+<td>list, array, input, env, *</td>
+<td> Comma-separated list of the kinds of opaque constructs to add. Default=list,array.
+<ul>
+   <li> list = Generate opaque expressions using linked lists
+   <li> array = Generate opaque expressions using arrays
+   <li> input = Generate opaque expressions that depend on input. Requires --Inputs to set invariants over input.
+   <li> env = Generate opaque expressions from entropy. Requires --InitEntropy.
+   <li> * = Same as list,array,input,env
+</ul>
+</td>
+</tr>
+<tr>
+<td>--InitOpaqueCount</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> How many opaque data structures (lists or arrays) to add to the program. They will be split roughly evenly between the different declared opaque structures. Default=1.</td>
+</tr>
+<tr>
+<td>--InitOpaqueTrace</td>
+<td>update, use, check</td>
+<td> Trace opaque structures and values as they are generated during execution. This used to be a boolean, but from version 3.3, it can take on multiple values. Default=NONE.
+<ul>
+   <li> update = Print the generated structure
+   <li> use = Print every use of an opaque value
+   <li> check = Print only if an opaque value is wrong
+</ul>
+</td>
+</tr>
+<tr>
+<td>--InitOpaqueDebug</td>
+<td><em><a>BOOLSPEC</a></em></td>
+<td> If true, then we store all opaque values in a temporary variable. This can help with debugging when looking at the generated code. For example, if you see a variable named _OPAQUE_Array_42_expected_128, it means: 1)this is opaque expression number 42; 2) it is computed based on an Array opaque kind; and 3) it should always have the value 128. Default=FALSE.</td>
+</tr>
+<tr>
+<td>--InitOpaqueSize</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> Size of opaque arrays. Default=30.</td>
+</tr>
+</table>
+
+### Anti Analysis Transformations: Implicit flow
+<table>
+    <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 60%;">
+    </colgroup>
+<tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
+<tr>
+<td>--Transform</td>
+<td>InitImplicitFlow</td>
+<td> Call this before --Transform=AntiTaintAnalysis, in case you want to use the implicit flow copy kinds counter_signal and bitcopy_signal. This transformation inserts the requisite signal handlers and jitted functions. </td>
+</tr>
+<tr>
+<td>--InitImplicitFlowKinds</td>
+<td>counter_int, counter_float, counter_signal, bitcopy_unrolled, bitcopy_loop, bitcopy_signal, file_write, lookup_byteArray, trivial_clock, trivial_thread_1, trivial_thread_2, trivial_counter, file_cache_time, file_cache_thread_1, file_cache_thread_2, mem_cache_time, mem_cache_thread_1, mem_cache_thread_2, jit_time, branchPrediction_time, *</td>
+<td> Comma-separated list of the kinds of implicit flow that can be inserted. Default=all options.
+<ul>
+   <li> counter_int = Copy a variable by counting up to its value.
+   <li> counter_float = Copy a variable by counting up to its value.
+   <li> counter_signal = Copy a variable by counting up to its value in a signal handler.
+   <li> bitcopy_unrolled = Copy a variable bit-by-bit, each bit tested by an if-statement.
+   <li> bitcopy_loop = Loop over the bits in a variable and copy each bit by testing in an if-statement.
+   <li> bitcopy_signal = Loop over the bits in a variable and copy each bit in a signal handler.
+   <li> file_write = Copy a variable byte-by-byte by writing to a file.
+   <li> lookup_byteArray = Copy a variable byte-by-byte by looking up each byte in a table.
+   <li> trivial_clock = Copy a variable by timing a trivial loop
+   <li> trivial_thread_1 = Copy a variable by timing a trivial loop, using 1 thread for timing
+   <li> trivial_thread_2 = Copy a variable by timing a trivial loop, using 2 threads for timing
+   <li> trivial_counter = Copy a variable by timing (using performance counters) a trivial loop
+   <li> file_cache_time = Copy a variable by timing a file being read with caching turned on or off.
+   <li> file_cache_thread_1 = Copy a variable by timing a file being read with caching turned on or off, but using 1 thread for timing.
+   <li> file_cache_thread_2 = Copy a variable by timing a file being read with caching turned on or off, but using 2 threads for timing.
+   <li> mem_cache_time = Copy a variable by timing a CPU data cache being read with or without caching
+   <li> mem_cache_thread_1 = Copy a variable by timing a CPU data cache being read with or without caching, but using 1 thread for timing.
+   <li> mem_cache_thread_2 = Copy a variable by timing a CPU data cache being read with or without caching, but using 2 threads for timing.
+   <li> jit_time = Copy a variable by timing a jitted function.
+   <li> branchPrediction_time = Copy a variable by timing the CPU's branch prediction.
+   <li> * = Same as all options turned on.
+</ul>
+</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowHandlerCount</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> How many signal handlers to insert. Default=1.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowJitCount</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> How many jitted functions to insert. Default=0.</td>
+</tr>
+<tr>
+<td>--InitImplicitFileCacheSize</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> Size of the file (in 8k blocks) for a file cache implicit flow. Default=100.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowJitFunctionBody</td>
+<td>S-Expression</td>
+<td> S-Expression describing the control structures of the function to be jitted. See the RandomFuns transformation for description of the syntax. Default="(for (for (for (for (if (bb 2) (bb 2))))))".</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrainingKind</td>
+<td>gap, resend</td>
+<td> How to do the training. Either by simply looking for a gap between slow and fast times, or to do a more sophisticated statistical test. Default=gap.
+<ul>
+   <li> gap = Look for a gap between slow and fast times.
+   <li> resend = Use a more sophisticated statistical test, resending each bit until a guaranteed confindence level and target error rate has been achieved. Set these with --InitImplicitFlowTrainingResendConfidenceLevel=... and --InitImplicitFlowTrainingResendTargetErrorRate=....
+</ul>
+</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrainingParameterRange</td>
+<td>S-Expression</td>
+<td> An S-Expression consisting of lists of elements of the form (<em>implicit-flow-kind from to</em>), indicating that we will start by training with the parameter set to <em>from</em>, then <em>2*from</em>, <em>4*from</em>, until <em>to</em> is reached. Default=(trivial_clock 1 10000) trivial_thread_1 1 10000) trivial_thread_2 1 10000) trivial_counter 1 10000) file_cache_time 1 1024) file_cache_thread_1 1 1024) file_cache_thread_2 1 1024) mem_cache_time 2 64) mem_cache_thread_1 2 64) mem_cache_thread_2 2 64) jit_time 0 0) jit_thread_1 0 0) jit_thread_2 0 0).</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrace</td>
+<td><em><a>BOOLSPEC</a></em></td>
+<td> Trace the execution of the initialization of implicit flow. Default=false.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrain</td>
+<td><em><a>BOOLSPEC</a></em></td>
+<td> Generate a program that runs the training pass. The output will look something like this: T  RAINING_DATA '(trivial_counter 779.000000 2) (trivial_thread 0.000000 8192) (file_cache_time 24618781.250000 512) (file_cache_thread 0.000000 2) (mem_cache_time 26890.750000 128) (mem_cache_thread 0.000000 2048) (jit_time 10020289.000000 0)'. This can then be input to a subsequent run of tigress, setting --InitImplicitFlowTrainingData= to this output. Default=false.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTime</td>
+<td><em><a>BOOLSPEC</a></em></td>
+<td> Generate a program that runs lots of timing tests. The output looks something like this TRAINING_MEASURED_TIME,trivial_counter,fast,example.com,1,208.000000, where the two last entries is the parameter of the implicit flow kind and the time (usually in clock cycles). Default=false.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrainingTimesClock</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> Number of training measurements to take for timing-based primitives. Default=0.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrainingTimesThread</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> Number of training measurements to take for threading-based primitives. Default=0.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrainingGapMaxFailureRateClock</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> Maximum acceptable failure rate for timing-based primitives, out of 100, for the gap training kind. Default=5.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrainingGapMaxFailureRateThread</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> Maximum acceptable failure rate for thread-based primitives, out of 100, for the gap training kind. Default=5.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrainingGapMinGap</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> Minimum gap between fast and midpoint and slow and midpoint, as a percentage, for the gap training kind. Default=80.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrainingResendConfidenceLevel</td>
+<td><em>real</em></td>
+<td> Confidence level, a floating point number close to 1.0, for the resend training kind. Default=0.95.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrainingResendTargetErrorRate</td>
+<td><em>real</em></td>
+<td> Acceptable error rate for the resend training kind. Should be a floating point number close to 0. Default=0.0001.</td>
+</tr>
+<tr>
+<td>--InitImplicitFlowTrainingData</td>
+<td><em>SExpression</em></td>
+<td> Set training data from previous run of --InitImplicitFlowTrain. Default=none.</td>
+</tr>
+</table>
+
+### Other: Optimize
