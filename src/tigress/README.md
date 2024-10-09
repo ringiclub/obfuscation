@@ -1409,7 +1409,7 @@
    <li> select = The S-expression (select a b c) inserts an implicit flow that picks among a,b,c
    <li> majority = The S-expression (majority a b c) inserts an implicit flow that uses majority logic
    <li> repeat = The S-expression (repeat a n) (where n is an integer) is equivalent to
-   <li> until = The S-expression (until a m n) (where m,n are integers, m<n)
+   <li> until = The S-expression (until a m n) (where m,n are integers, m < n)
 </ul>
 </td>
 </tr>
@@ -1604,3 +1604,299 @@
 </table>
 
 ### Other: Optimize
+<table>
+    <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 60%;">
+    </colgroup>
+<tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
+<tr>
+<td>--Transform</td>
+<td>Optimize</td>
+<td> Some standard intra-procedural optimizations. Useful to clean up code after certain transformations. </td>
+</tr>
+<tr>
+<td>--OptimizeKinds</td>
+<td>constProp, copyProp, mergeLocals</td>
+<td> List of optimizing transformations to apply Default=NONE.
+<ul>
+   <li> constProp = <em>Constant Propagation</em>, i.e. replace a variable with its value, if it is constant.
+   <li> copyProp = <em>Copy Propagation</em>, i.e. after the assignment x=y replaces uses of variable x with y.
+   <li> mergeLocals = Reduce the number of local variables by merging locals that are not live at the same time. Particularly useful after inlining,
+</ul>
+</td>
+</tr>
+<tr>
+<td>--OptimizeDumpInterferenceGraph</td>
+<td></td>
+<td> For, mergeLocals, write the interference graph to a *.neato file. It can be visualized using neato -Tpdf foo-interferenceGraph.neato > foo.pdf. Default=False.</td>
+</tr>
+<tr>
+<td>--OptimizeShortMergedNames</td>
+<td></td>
+<td> For, mergeLocals, generate short names for merged local variables, instead of the default var1_var2_.... Default=False.</td>
+</tr>
+</table>
+
+### Other: Software Metrics
+<table>
+    <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 60%;">
+    </colgroup>
+<tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
+<tr>
+<td>--Transform</td>
+<td>SoftwareMetrics</td>
+<td> Compute software complexity metrics for a function. </td>
+</tr>
+<tr>
+<td>--SoftwareMetricKind</td>
+<td>raw, halstead, mccabe</td>
+<td> What metric to compute. Default=halstead,mccabe.
+<ul>
+   <li> raw = Raw counts of tokens, identifiers, etc.
+   <li> halstead = The Halstead metric.
+   <li> mccabe = McCabe's Cyclomatric Complexity metric.
+</ul>
+</td>
+</tr>
+<tr>
+<td>--SoftwareMetricFileName</td>
+<td>string</td>
+<td> On which file to print the metrics. If not set, print to standard output. <b>From version 3.3.</b> Default=Stdout.</td>
+</tr>
+<tr>
+<td>--SoftwareMetricJsonFileName</td>
+<td>string</td>
+<td> On which file to print the metrics in Json format.  <b>From version 3.3.</b> Default=Stdout.</td>
+</tr>
+</table>
+
+### Other: Info
+<table>
+    <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 60%;">
+    </colgroup>
+<tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
+<tr>
+<td>--Transform</td>
+<td>Info</td>
+<td> Print internal information. </td>
+</tr>
+<tr>
+<td>--InfoKind</td>
+<td>src, cilCfg, tigressCfg, fun, ast, json, linear, linearJson, linearSource, alias, globals, universe, flat_globals, builtins, src2cil</td>
+<td> Information to print. For cfg, fun, and linear use --Functions, as usual, to specify which functions to print. --Transform=Info --InfoKind=src --Functions=foo is a good way to examine a function after each transformation. 
+<ul>
+   <li> src = Print the functions specified by --Functions in source form on standard output.
+   <li> cilCfg = Print CIL's Control Flow Graph for the functions specified by --Functions on standard output.
+   <li> tigressCfg = Output Tigress' Control Flow Graph in graphviz format. If you specify --Functions=foo, the dot file will be named foo.gv. Compile with <code>dot -Tpdf foo.dot > foo.pdf</code>.
+   <li> fun = Print the functions specified by --Functions in an internal format
+   <li> ast = Output the Abstract Syntax Tree of the functions specified by --Functions. If you specify --Functions=foo, the dot file will be named foo.gv. Compile with <code>dot -Tpdf foo.dot > foo.pdf</code>.
+   <li> json = Output the Abstract Syntax Tree of the functions specified by --Functions in JSON format on standar output. Set --Verbosity to adjust the amount of information presented.
+   <li> linear = Function in internal linearized block format (used as a starting point for flattening and branch functions)
+   <li> linearJson = As "linear" but in a Json format.
+   <li> linearSource = As "linear" but in a more C-like format.
+   <li> alias = Print the pointer-graphs
+   <li> globals = Print all symbols in the original program in an easy to parse format. This is useful to extract the names of and signatures of functions, local variables and their types, etc from a C program.
+   <li> universe = Print the current universe of symbols.
+   <li> flat_globals = Save the all C objects from the input file into the json file given by <code>--InfoGlobalsFileName</code>. This is a simple flat format useful for reading into other programs that need to know the functions, types, local variables etc defined by a program.
+   <li> builtins = Print all the builtins (and their signatures) that Tigress knows about.
+   <li> src2cil = Print all the globals as OCaml/Cil.
+</ul>
+</td>
+</tr>
+<tr>
+<td>--InfoUniverseFileName</td>
+<td>string</td>
+<td> The name of the json file generated for the Tigress universe. <b>From version 3.3</b> Default=universe.json.</td>
+</tr>
+<tr>
+<td>--InfoGlobalsFileName</td>
+<td>string</td>
+<td> The name of the json file generated from Tigress global objects. <b>From version 3.3</b> Default=globals.json.</td>
+</tr>
+<tr>
+<td>--InfoCilFileName</td>
+<td>string</td>
+<td> The name of the C file generated for --InfoKind=src2cil. <b>From version 4.0.6</b> Default=src2cil.c.</td>
+</tr>
+<tr>
+<td>--InfoCilPrefix</td>
+<td>string</td>
+<td> Prefix for symbols generated by --InfoKind=src2cil. <b>From version 4.0.6</b> Default="".</td>
+</tr>
+<tr>
+<td>--InfoCilIncludeComments</td>
+<td>string</td>
+<td> Include comments in the code generated by --InfoKind=src2cil. <b>From version 4.0.6</b> Default=true.</td>
+</tr>
+</table>
+
+### Other: Generate Entropy
+<table>
+    <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 60%;">
+    </colgroup>
+<tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
+<tr>
+<td>--Transform</td>
+<td>SoftwareMetrics</td>
+<td> Compute software complexity metrics for a function. </td>
+</tr>
+<tr>
+<td>--SoftwareMetricKind</td>
+<td>raw, halstead, mccabe</td>
+<td> What metric to compute. Default=halstead,mccabe.
+<ul>
+   <li> raw = Raw counts of tokens, identifiers, etc.
+   <li> halstead = The Halstead metric.
+   <li> mccabe = McCabe's Cyclomatric Complexity metric.
+</ul>
+</td>
+</tr>
+<tr>
+<td>--SoftwareMetricFileName</td>
+<td>string</td>
+<td> On which file to print the metrics. If not set, print to standard output. <b>From version 3.3.</b> Default=Stdout.</td>
+</tr>
+<tr>
+<td>--SoftwareMetricJsonFileName</td>
+<td>string</td>
+<td> On which file to print the metrics in Json format.  <b>From version 3.3.</b> Default=Stdout.</td>
+</tr>
+</table>
+
+### Other: Measure
+<table>
+    <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 60%;">
+    </colgroup>
+<tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
+<tr>
+<td>--Transform</td>
+<td>Measure</td>
+<td> Measure the resources (time) consumed by a function. </td>
+</tr>
+<tr>
+<td>--MeasureKind</td>
+<td>time</td>
+<td> Resource to measure. Default=time.
+<ul>
+   <li> time = Measure time.
+</ul>
+</td>
+</tr>
+<tr>
+<td>--MeasureTimes</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> Number of times to run the function. Default=1.</td>
+</tr>
+</table>
+
+### Other: Leak information
+<table>
+    <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 60%;">
+    </colgroup>
+<tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
+<tr>
+<td>--Transform</td>
+<td>Leak</td>
+<td> Simulate a misbehaving obfuscator by inserting code that leak (part of) the secret function. Note that openssl needs to be installed. </td>
+</tr>
+<tr>
+<td>--LeakSecretFunction</td>
+<td><em>string</em></td>
+<td> The name of the secret function whose code will be leaked Default=0.</td>
+</tr>
+<tr>
+<td>--LeakVariable</td>
+<td><em>string</em></td>
+<td> For dynamic leakers, the formal parameter that will be tested Default=0.</td>
+</tr>
+<tr>
+<td>--LeakValue</td>
+<td><em><a>INTSPEC</a></em></td>
+<td> For dynamic leakers, the value that the formal parameter will be tested against Default=0.</td>
+</tr>
+<tr>
+<td>--LeakKind</td>
+<td>static, dynamic, dynamic_byte</td>
+<td> Select the kind of leaking code to be inserted. Default=static.
+<ul>
+   <li> static = insert the encrypted code into a variable
+   <li> dynamic = return the encrypted code when a particular formal parameter has a particular value
+   <li> dynamic_byte = return the i:th byte of the encrypted code depending on the value of the formal parameter
+</ul>
+</td>
+</tr>
+<tr>
+<td>--LeakDebug</td>
+<td><em>boolean</em></td>
+<td> Turn debugging on or off. Default=false.</td>
+</tr>
+</table>
+
+### Other: Clean Up
+<table>
+    <colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 60%;">
+    </colgroup>
+<tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
+<tr>
+<td>--Transform</td>
+<td>CleanUp</td>
+<td> Transformation to run last, to clean up the generated code. </td>
+</tr>
+<tr>
+<td>--CleanUpKinds</td>
+<td>names, annotations, constants, randomize, compress, noExterns, noMain, removeUnusedFunctions, *</td>
+<td> Specify types of cleanup to perform Default=names,annotations,constants,randomize.
+<ul>
+   <li> names = Replace identifiers with less obvious ones
+   <li> annotations = Remove annotations that Tigress uses internally. Tigress should not be called again on a file that has had annotations removed
+   <li> constants = Fold constant expressions
+   <li> randomize = Randomly reorder functions in the output file
+   <li> compress = Compress the output file by removing blank lines and extra spaces
+   <li> noExterns = Do not output any extern declarations. Instead, you must insert the corresponding #inlude files.
+   <li> noMain = Do not outout the main() function. This can be useful if you are transforming a library, and inserted a dummy main() that should be removed.
+   <li> removeUnusedFunctions = Remove functions not reachable from main(). Use --CleanUpRoots for functions not reachable from main, but which are still invoked spontaneously.
+   <li> * = Same as names,annotations,constants
+</ul>
+</td>
+</tr>
+<tr>
+<td>--CleanUpDoNotRename</td>
+<td><em>String,String,...</em></td>
+<td> Do not rename these identifiers. Default=NONE.</td>
+</tr>
+<tr>
+<td>--CleanUpDumpCallGraph</td>
+<td><em><a>BOOLSPEC</a></em></td>
+<td> Print the call graph computed during unused function removal as a .dot file. Default=False.</td>
+</tr>
+<tr>
+<td>--CleanUpDoNotRemove</td>
+<td><em>String,String,...</em></td>
+<td> Comma-separated list of function names which should not be removed by the removeUnusedFunctions transformation. Default=NONE.</td>
+</tr>
+<tr>
+<td>--CleanUpRoots</td>
+<td><em>String,String,...</em></td>
+<td> For the removeUnusedFunctions transformation, you can provide a comma-separated list of function names which are spontaneously called. Normally, this is just 'main', but if you have functions which are run spontaneously as threads, for example, and not directly reachable from main, include them here. Similarly for functions whose address are taken but which are never invoked directly. Default=main.</td>
+</tr>
+</table>
