@@ -2,14 +2,12 @@
 As part of my work-study program as a reverse engineer, I'm in charge of analyzing the various layers of obfuscation in compiled code through the interfaces of the Tigress and OLLVM compilers. The final rendering is a GUI overlay for three types of decompiler (IDA Pro, Ghidra, and Binary Ninja) to enable real-time code clean-up with a native C plugin or an external Python script (which I'll have to justify with a benchmark).
 
 ## Table of Contents
-- [Introduction](#introduction)
-  - [Table of Contents](#table-of-contents)
-  - [Obfuscation Overview](#obfuscation-overview)
-  - [Obfuscation In General](#obfuscation-in-general)
-  - [Tigress Analysis](#tigress-analysis)
-  - [OLLVM Analysis](#ollvm-analysis)
-  - [Benchmarks](#benchmarks)
-  - [References](#references)
+- [Obfuscation Overview](#obfuscation-overview)
+- [Obfuscation In General](#obfuscation-in-general)
+- [Tigress Analysis](#tigress-analysis)
+- [OLLVM Analysis](#ollvm-analysis)
+- [Benchmarks](#benchmarks)
+- [References](#references)
 
 ## Obfuscation Overview
 Software obfuscation is a method to make programs more difficult to reverse engineer. There are multiple reasons why this is done, such as protecting intellectual property, defense in depth, or hiding bugs. No matter the reason, there are multiple ways to make the software more difficult to understand, from fully manual modifications to advanced commercial obfuscation frameworks.
