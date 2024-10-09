@@ -1,16 +1,54 @@
 # Introduction
 
-# Table of contents
 
-## Tigress
+
+## Table of contents
+- [Tigress: An Obfuscation Tool for C Programs](#tigress-an-obfuscation-tool-for-c-programs)
+  - [Control: Virtualize](#control-virtualize)
+  - [Control: Jit](#control-jit)
+  - [Control: JitDynamic](#control-jitdynamic)
+  - [Control: Flatten](#control-flatten)
+  - [Control: Add Opaque](#control-add-opaque)
+  - [Control: Encode Branches](#control-encode-branches)
+  - [Data: Encode Data](#data-encode-data)
+  - [Data: Encode Arithmetic](#data-encode-arithmetic)
+  - [Data: Encode Literals](#data-encode-literals)
+  - [Functions: Split](#functions-split)
+  - [Functions: Merge](#functions-merge)
+  - [Functions: Randomize Arguments](#functions-randomize-arguments)
+  - [Functions: Inline](#functions-inline)
+  - [Functions: Copy](#functions-copy)
+  - [Functions: Random Function](#functions-random-function)
+  - [Integrity: Checksum](#integrity-checksum)
+  - [Integrity: Self Modify](#integrity-self-modify)
+  - [Environment Transformations: Encode External](#environment-transformations-encode-external)
+  - [Environment Transformations: Check Environment](#environment-transformations-check-environment)
+  - [Anti Analysis Transformations: AntiAliasAnalysis](#anti-analysis-transformations-antialiasanalysis)
+  - [Anti Analysis Transformations: AntiTaintAnalysis](#anti-analysis-transformations-antitaintanalysis)
+  - [Anti Analysis Transformations: Opaque Predicate](#anti-analysis-transformations-opaque-predicate)
+  - [Anti Analysis Transformations: Implicit flow](#anti-analysis-transformations-implicit-flow)
+  - [Other: Optimize](#other-optimize)
+  - [Other: Software Metrics](#other-software-metrics)
+  - [Other: Info](#other-info)
+  - [Other: Generate Entropy](#other-generate-entropy)
+  - [Other: Measure](#other-measure)
+  - [Other: Leak information](#other-leak-information)
+  - [Other: Clean Up](#other-clean-up)
+  - [Some tests](#some-tests)
+
+## Tigress: An Obfuscation Tool for C Programs
+Tigress is a diversifying obfuscator for the C language that supports many defenses against both static and dynamic reverse engineering attacks.
+
+Tigress is a source-to-source transformer - it takes a C source program as input and returns a new C program as output. 
+An obfuscation script (actually, a long sequence of command line options) describes the sequences of transformations that should be applied to the functions of the program.
 
 ### Control: Virtualize
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -27,12 +65,12 @@
 <td>IndexedStack, PointerStack, AddressSizeShort, AddressSizeInt, AddressSizeLong, CacheTop</td>
 <td> Tweak performance. A comma-separated list of the options below. MODIFIES Virtualize DEFAULT PointerStack 
 <ul>
-   <li> IndexedStack = Use array indexing to access stack elements.
-   <li> PointerStack = Use pointer operations to access stack elements.
-   <li> AddressSizeShort = Assume addresses for accessing instruction handlers fit in a short (only available with direct dispatch).
-   <li> AddressSizeInt = Assume addresses for accessing instruction handlers fit in an int (only available with direct dispatch).
-   <li> AddressSizeLong = Assume addresses for accessing instruction handlers fit in a long (only available with direct dispatch).
-   <li> CacheTop = Store the top of stack in a register.
+<li> IndexedStack = Use array indexing to access stack elements.
+<li> PointerStack = Use pointer operations to access stack elements.
+<li> AddressSizeShort = Assume addresses for accessing instruction handlers fit in a short (only available with direct dispatch).
+<li> AddressSizeInt = Assume addresses for accessing instruction handlers fit in an int (only available with direct dispatch).
+<li> AddressSizeLong = Assume addresses for accessing instruction handlers fit in a long (only available with direct dispatch).
+<li> CacheTop = Store the top of stack in a register.
 </ul>
 </td>
 </tr>
@@ -51,16 +89,16 @@
 <td>instr, args, stack, checkTags, actions, regs, locals, checkLocals, threads, *</td>
 <td> Insert tracing code to show the stack and the virtual instructions executing. Default=print nothing.
 <ul>
-   <li> instr = print instruction names
-   <li> args = print arguments to instructions
-   <li> stack = print stack contents. Currently only works if you set --VirtualizePerformance=IndexedStack. You get more readable output if you --VirtualizeTaggedStore=true
-   <li> checkTags = check that the tags indicate the correct type. Requires --VirtualizeTaggedStore=true to be set.
-   <li> actions = print high level actions as they occur
-   <li> regs = print register contents (not implemented)
-   <li> locals = print current values of local variables
-   <li> checkLocals = print local variables that have changed after a store. Useful to find stores that affect more than one variable, ie. write overruns.
-   <li> threads = trace the thread execution for --VirtualDispatch=concurrent.
-   <li> * = select all options
+<li> instr = print instruction names
+<li> args = print arguments to instructions
+<li> stack = print stack contents. Currently only works if you set --VirtualizePerformance=IndexedStack. You get more readable output if you --VirtualizeTaggedStore=true
+<li> checkTags = check that the tags indicate the correct type. Requires --VirtualizeTaggedStore=true to be set.
+<li> actions = print high level actions as they occur
+<li> regs = print register contents (not implemented)
+<li> locals = print current values of local variables
+<li> checkLocals = print local variables that have changed after a store. Useful to find stores that affect more than one variable, ie. write overruns.
+<li> threads = trace the thread execution for --VirtualDispatch=concurrent.
+<li> * = select all options
 </ul>
 </td>
 </tr>
@@ -84,19 +122,19 @@
 <td>input, tree, ISA, instrs, types, vars, strings, SuperOps, calls, bytes, array, stack, *</td>
 <td> Dump internal data structures used by the virtualizer. Comma-separated list. Default=dump nothing.
 <ul>
-   <li> input = dump the function that is to be virtualized
-   <li> tree = dump the expression trees generated from the CIL representation
-   <li> ISA = dump the Instruction Set Architecture
-   <li> instrs = dump the generated virtual instructions
-   <li> types = dump the types found
-   <li> vars = dump the local variables found
-   <li> strings = dump the strings found
-   <li> SuperOps = dump the super operator instructions
-   <li> calls = dump the function calls found
-   <li> bytes = dump the bytecode array
-   <li> array = dump the instruction array
-   <li> stack = dump the evaluation stack
-   <li> * = select all options
+<li> input = dump the function that is to be virtualized
+<li> tree = dump the expression trees generated from the CIL representation
+<li> ISA = dump the Instruction Set Architecture
+<li> instrs = dump the generated virtual instructions
+<li> types = dump the types found
+<li> vars = dump the local variables found
+<li> strings = dump the strings found
+<li> SuperOps = dump the super operator instructions
+<li> calls = dump the function calls found
+<li> bytes = dump the bytecode array
+<li> array = dump the instruction array
+<li> stack = dump the evaluation stack
+<li> * = select all options
 </ul>
 </td>
 </tr>
@@ -105,21 +143,21 @@
 <td>branch, compute, flag</td>
 <td> Ways to transform the one conditional branch that occurs in instruction handlers. Default=branch.
 <ul>
-   <li> branch = Use normal branches, such as if (a>b) VPC=L1 else VPC=L2
-   <li> compute = Compute the branch, such as x=(a>b); VPC=*(<em>expression over x</em>). Not yet implemented.
-   <li> flag = Compute the branch from the values of the flag register, such as asm("cmp a b;pushf;pop"); VPC=*(<em>expression over flag register</em>)
+<li> branch = Use normal branches, such as if (a>b) VPC=L1 else VPC=L2
+<li> compute = Compute the branch, such as x=(a>b); VPC=*(<em>expression over x</em>). Not yet implemented.
+<li> flag = Compute the branch from the values of the flag register, such as asm("cmp a b;pushf;pop"); VPC=*(<em>expression over flag register</em>)
 </ul>
 </td>
 </tr>
-</table>
+</table><br><br>
 
 ### Control: Jit
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -131,8 +169,8 @@
 <td>hard, soft</td>
 <td> How the jitted instructions are encoded. Default=hard.
 <ul>
-   <li> hard = The jitted instructions are encoded as code.
-   <li> soft = The jitted instructions are encoded as data (not implemented).
+<li> hard = The jitted instructions are encoded as code.
+<li> soft = The jitted instructions are encoded as data (not implemented).
 </ul>
 </td>
 </tr>
@@ -156,12 +194,12 @@
 <td>counter, counter_signal, bitcopy_unrolled, bitcopy_loop, bitcopy_signal, *</td>
 <td> Comma-separated list of the kinds of implicit flow to insert. counter_signal and bitcopy_signal require that --Transform=InitImplicitFlow --InitImplicitFlowCount=... has been called to create the signal handlers. Default=all options.
 <ul>
-   <li> counter = Copy a variable by counting up to its value.
-   <li> counter_signal = Copy a variable by counting up to its value in a signal handler.
-   <li> bitcopy_unrolled = Copy a variable bit-by-bit, each bit tested by an if-statement.
-   <li> bitcopy_loop = Loop over the bits in a variable and copy each bit by testing in an if-statement.
-   <li> bitcopy_signal = Loop over the bits in a variable and copy each bit in a signal handler.
-   <li> * = Same as all options turned on.
+<li> counter = Copy a variable by counting up to its value.
+<li> counter_signal = Copy a variable by counting up to its value in a signal handler.
+<li> bitcopy_unrolled = Copy a variable bit-by-bit, each bit tested by an if-statement.
+<li> bitcopy_loop = Loop over the bits in a variable and copy each bit by testing in an if-statement.
+<li> bitcopy_signal = Loop over the bits in a variable and copy each bit in a signal handler.
+<li> * = Same as all options turned on.
 </ul>
 </td>
 </tr>
@@ -180,13 +218,13 @@
 <td><a>INTSPEC</a></td>
 <td> Print the jitter's bytecode. OR the numeric arguments together, or 0 for no dumping. Default=0.
 <ul>
-   <li> 0x01 = JIT_DEBUG_OPS
-   <li> 0x02 = JIT_DEBUG_CODE
-   <li> 0x04 = JIT_DEBUG_COMBINED
-   <li> 0x08 = JIT_DEBUG_COMPILABLE
-   <li> 0x100 = JIT_DEBUG_LOADS
-   <li> 0x200 = JIT_DEBUG_ASSOC
-   <li> 0x400 = JIT_DEBUG_LIVENESS
+<li> 0x01 = JIT_DEBUG_OPS
+<li> 0x02 = JIT_DEBUG_CODE
+<li> 0x04 = JIT_DEBUG_COMBINED
+<li> 0x08 = JIT_DEBUG_COMPILABLE
+<li> 0x100 = JIT_DEBUG_LOADS
+<li> 0x200 = JIT_DEBUG_ASSOC
+<li> 0x400 = JIT_DEBUG_LIVENESS
 </ul>
 </td>
 </tr>
@@ -225,15 +263,15 @@
 <td><a>BOOLSPEC</a></td>
 <td> Randomize the order of basic blocks Default=true.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Control: JitDynamic
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -245,8 +283,8 @@
 <td>hard, soft</td>
 <td> How the jitted instructions are encoded. Default=hard.
 <ul>
-   <li> hard = The jitted instructions are encoded as code.
-   <li> soft = The jitted instructions are encoded as data (not implemented).
+<li> hard = The jitted instructions are encoded as code.
+<li> soft = The jitted instructions are encoded as data (not implemented).
 </ul>
 </td>
 </tr>
@@ -285,13 +323,13 @@
 <td><a>INTSPEC</a></td>
 <td> Print the jitter's bytecode. OR the numeric arguments together, or 0 for no dumping. Default=0.
 <ul>
-   <li> 0x01 = JIT_DEBUG_OPS
-   <li> 0x02 = JIT_DEBUG_CODE
-   <li> 0x04 = JIT_DEBUG_COMBINED
-   <li> 0x08 = JIT_DEBUG_COMPILABLE
-   <li> 0x100 = JIT_DEBUG_LOADS
-   <li> 0x200 = JIT_DEBUG_ASSOC
-   <li> 0x400 = JIT_DEBUG_LIVENESS
+<li> 0x01 = JIT_DEBUG_OPS
+<li> 0x02 = JIT_DEBUG_CODE
+<li> 0x04 = JIT_DEBUG_COMBINED
+<li> 0x08 = JIT_DEBUG_COMPILABLE
+<li> 0x100 = JIT_DEBUG_LOADS
+<li> 0x200 = JIT_DEBUG_ASSOC
+<li> 0x400 = JIT_DEBUG_LIVENESS
 </ul>
 </td>
 </tr>
@@ -325,20 +363,20 @@
 <td>none, ident, ident_loop, xor_transfer, xor_byte_loop, xor_word_loop, xor_qword_loop, xor_call, xor_call_trace, xtea, xtea_trace, stolen_byte, stolen_short, stolen_word</td>
 <td> How blocks should be encoded/decoded. Default=*.
 <ul>
-   <li> none = No encoding
-   <li> ident = The identity encoding using a single copy JIT instruction
-   <li> ident_loop = The identity encoding using a copy loop of primitive JIT instructions
-   <li> xor_transfer = An xor encoding using a single xor JIT instruction
-   <li> xor_byte_loop = An xor encoding using a copy loop of byte-size primitive JIT instructions
-   <li> xor_word_loop = An xor encoding using a copy loop of word-size primitive JIT instructions
-   <li> xor_qword_loop = An xor encoding using a copy loop of qword-size primitive JIT instructions
-   <li> xor_call = An xor encoding calling a xor function
-   <li> xor_call_trace = An xor encoding calling a xor function with tracing turned on (for debugging)
-   <li> xtea = An xtea encryption
-   <li> xtea_trace = An xtea encryption with tracing turned on (for debugging)
-   <li> stolen_byte = A byte-sized stolen bytes encoding
-   <li> stolen_short = A short-sized stolen bytes encoding
-   <li> stolen_word = A word-sized stolen bytes encoding
+<li> none = No encoding
+<li> ident = The identity encoding using a single copy JIT instruction
+<li> ident_loop = The identity encoding using a copy loop of primitive JIT instructions
+<li> xor_transfer = An xor encoding using a single xor JIT instruction
+<li> xor_byte_loop = An xor encoding using a copy loop of byte-size primitive JIT instructions
+<li> xor_word_loop = An xor encoding using a copy loop of word-size primitive JIT instructions
+<li> xor_qword_loop = An xor encoding using a copy loop of qword-size primitive JIT instructions
+<li> xor_call = An xor encoding calling a xor function
+<li> xor_call_trace = An xor encoding calling a xor function with tracing turned on (for debugging)
+<li> xtea = An xtea encryption
+<li> xtea_trace = An xtea encryption with tracing turned on (for debugging)
+<li> stolen_byte = A byte-sized stolen bytes encoding
+<li> stolen_short = A short-sized stolen bytes encoding
+<li> stolen_word = A word-sized stolen bytes encoding
 </ul>
 </td>
 </tr>
@@ -347,8 +385,8 @@
 <td>data, code</td>
 <td> Where the encoding/decoding key is stored (for xor and xtea encodings) Default=data.
 <ul>
-   <li> data = In the data segment
-   <li> code = In the code segment (not implemented)
+<li> data = In the data segment
+<li> code = In the code segment (not implemented)
 </ul>
 </td>
 </tr>
@@ -387,15 +425,15 @@
 <td>STRING</td>
 <td> A string of the form "gcc -std=c99 -o %o %i", where "%i" will be replaced with the name of the input file and "%o" with the name of the output file. For example, if your program uses the math library, you should set --JitDynamicCompileCommand="gcc -std=c99 -o %o %i -lm". Default="gcc -std=c99 -o %o %i".</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Control: Flatten
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -422,21 +460,21 @@
 <td>blocks, check, *</td>
 <td> Print a message before each block gets executed. Useful for debugging. Prior to version <b>3.3.3</b> this used to be a boolean. Default=print nothing.
 <ul>
-   <li> blocks = print a message before each block gets executed
-   <li> check = insert extra checks, such as hitting default in a switch dispatch
-   <li> * = select all options
+<li> blocks = print a message before each block gets executed
+<li> check = insert extra checks, such as hitting default in a switch dispatch
+<li> * = select all options
 </ul>
 </td>
 </tr>
-</table>
+</table><br><br>
 
 ### Control: Add Opaque
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -453,13 +491,13 @@
 <td>call, bug, true, junk, fake, question, *</td>
 <td> Comma-separated list of the types of insertions of bogus computation allowed. Default=call,bug,true,junk,question.
 <ul>
-   <li> call = if (false) RandomFunction()
-   <li> bug = if (false) BuggyStatement else RealStatement
-   <li> true = if (true) RealStatement
-   <li> junk = if (false) asm(".byte random bytes")
-   <li> fake = if (False) NonExistingFunction()
-   <li> question = if (True || False) RealStatement else CopyOfRealStatement
-   <li> * = Turns all options on.
+<li> call = if (false) RandomFunction()
+<li> bug = if (false) BuggyStatement else RealStatement
+<li> true = if (true) RealStatement
+<li> junk = if (false) asm(".byte random bytes")
+<li> fake = if (False) NonExistingFunction()
+<li> question = if (True || False) RealStatement else CopyOfRealStatement
+<li> * = Turns all options on.
 </ul>
 </td>
 </tr>
@@ -483,12 +521,12 @@
 <td>top, block, deep, recursive, level, inside</td>
 <td> Comma-separated list specifying the order in which different split methods are attempted when --AddOpaqueKinds=question is specified. Default=top,block,deep,recursive.
 <ul>
-   <li> top = split the top-level list of statements into two functions funcname_split_1 and funcname_split_2.
-   <li> block = split a basic block (list of assignment and call statements) into two functions.
-   <li> deep = split out a nested control structure of at least height>2 into its own function funcname_split_1.
-   <li> recursive = same as block, but calls to split functions are also allowed to be split out.
-   <li> level = split out a statement at a level specified by --AddOpaqueSplitLevel.
-   <li> inside = split out a statement at the innermost nesting level.
+<li> top = split the top-level list of statements into two functions funcname_split_1 and funcname_split_2.
+<li> block = split a basic block (list of assignment and call statements) into two functions.
+<li> deep = split out a nested control structure of at least height>2 into its own function funcname_split_1.
+<li> recursive = same as block, but calls to split functions are also allowed to be split out.
+<li> level = split out a statement at a level specified by --AddOpaqueSplitLevel.
+<li> inside = split out a statement at the innermost nesting level.
 </ul>
 </td>
 </tr>
@@ -502,23 +540,23 @@
 <td>list, array, input, env, *</td>
 <td> Default=list,array.
 <ul>
-   <li> list = Generate opaque expressions using linked lists
-   <li> array = Generate opaque expressions using arrays
-   <li> input = Generate opaque expressions that depend on input. Requires --Inputs to set invariants over input.
-   <li> env = Generate opaque expressions from entropy. Requires --InitEntropy.
-   <li> * = Same as list,array,input,env
+<li> list = Generate opaque expressions using linked lists
+<li> array = Generate opaque expressions using arrays
+<li> input = Generate opaque expressions that depend on input. Requires --Inputs to set invariants over input.
+<li> env = Generate opaque expressions from entropy. Requires --InitEntropy.
+<li> * = Same as list,array,input,env
 </ul>
 </td>
 </tr>
-</table>
+</table><br><br>
 
 ### Control: Encode Branches
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -530,11 +568,11 @@
 <td>list, array, input, env, *</td>
 <td> Comma-separated list of the kinds of opaque constructs to use when obfuscating the branch function. Default=list,array.
 <ul>
-   <li> list = Generate opaque expressions using linked lists
-   <li> array = Generate opaque expressions using arrays
-   <li> input = Generate opaque expressions that depend on input. Requires --Inputs to set invariants over input.
-   <li> env = Generate opaque expressions from entropy. Requires --InitEntropy.
-   <li> * = Same as list,array,input,env
+<li> list = Generate opaque expressions using linked lists
+<li> array = Generate opaque expressions using arrays
+<li> input = Generate opaque expressions that depend on input. Requires --Inputs to set invariants over input.
+<li> env = Generate opaque expressions from entropy. Requires --InitEntropy.
+<li> * = Same as list,array,input,env
 </ul>
 </td>
 </tr>
@@ -548,16 +586,16 @@
 <td><em><a>BOOLSPEC</a></em></td>
 <td> Whether to obfuscate the branch function. Default=false.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Data: Encode Data
 
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -569,16 +607,16 @@
 <td>poly1, xor, xorfloat, add, rnc, poly_xor, xor_poly, poly_rnc, xor_rnc, *</td>
 <td> Comma-separated list of the kinds of codecs that may be used. Only poly1 currently makes sense; avoid the others. Default=poly1.
 <ul>
-   <li> poly1 = Linear transformation of the form a*x+b.
-   <li> xor = Exclusive-or with a constant.
-   <li> xorfloat = Exclusive-or with a constant on floating point values.
-   <li> add = Add a constant and promote to next largest integer type. Will fail for the largest integer type.
-   <li> rnc = Residue Number Coding
-   <li> poly_xor = First encode with poly1, then with xor
-   <li> xor_poly = First encode with xor, then with poly1
-   <li> poly_rnc = First encode with poly1, then with rnc
-   <li> xor_rnc = First encode with xor, then with rnc
-   <li> * = All options
+<li> poly1 = Linear transformation of the form a*x+b.
+<li> xor = Exclusive-or with a constant.
+<li> xorfloat = Exclusive-or with a constant on floating point values.
+<li> add = Add a constant and promote to next largest integer type. Will fail for the largest integer type.
+<li> rnc = Residue Number Coding
+<li> poly_xor = First encode with poly1, then with xor
+<li> xor_poly = First encode with xor, then with poly1
+<li> poly_rnc = First encode with poly1, then with rnc
+<li> xor_rnc = First encode with xor, then with rnc
+<li> * = All options
 </ul>
 </td>
 </tr>
@@ -587,13 +625,13 @@
 <td>pointsToGraph, aliasConstraints, aliasProgress, aliasDebug, aliasTypes, mayAliasRelationships, traceUpdates</td>
 <td> Debugging options. Default=NONE.
 <ul>
-   <li> pointsToGraph = Print the alias graph.
-   <li> aliasConstraints = Print alias constraints.
-   <li> aliasProgress = Print progress of the alias computation.
-   <li> aliasDebug = Print alias debugging information
-   <li> aliasTypes = Print alias type information
-   <li> mayAliasRelationships = Print may alias relationships
-   <li> traceUpdates = Trace how functions are transformed
+<li> pointsToGraph = Print the alias graph.
+<li> aliasConstraints = Print alias constraints.
+<li> aliasProgress = Print progress of the alias computation.
+<li> aliasDebug = Print alias debugging information
+<li> aliasTypes = Print alias type information
+<li> mayAliasRelationships = Print may alias relationships
+<li> traceUpdates = Trace how functions are transformed
 </ul>
 </td>
 </tr>
@@ -617,20 +655,20 @@
 <td>struct, split</td>
 <td> How variabls split into multiple pieces should be stored. Default=struct.
 <ul>
-   <li> struct = Store pieces in a struct.
-   <li> split = Store pieces in individual variables. Only partially implemented.
+<li> struct = Store pieces in a struct.
+<li> split = Store pieces in individual variables. Only partially implemented.
 </ul>
 </td>
 </tr>
-</table>
+</table><br><br>
 
 ### Data: Encode Arithmetic
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -642,8 +680,8 @@
 <td>builtin, plugins</td>
 <td> Specify the types to encode. Currently, only integer is available. <b>From version 3.3.3.</b> Default=builtin.
 <ul>
-   <li> builtin = Use Tigress' built-in MBA patterns
-   <li> plugins = Use plugin MBA expressions
+<li> builtin = Use Tigress' built-in MBA patterns
+<li> plugins = Use plugin MBA expressions
 </ul>
 </td>
 </tr>
@@ -667,15 +705,15 @@
 <td><em>string</em></td>
 <td> Name of Json file onto which we dump transformed expression. The actual file will be <em>function-name</em>_<em>number</em>_<em>fileName.json</em>. <b>From version 3.3.2.</b> Default=100.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Data: Encode Literals
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -687,9 +725,9 @@
 <td>integer, string, *</td>
 <td> Specify the types of literals to encode Default=integer,string.
 <ul>
-   <li> integer = Replace literal integers with opaque expressions
-   <li> string = Replace literal strings with calls to a function that generates them
-   <li> * = Same as integer,string
+<li> integer = Replace literal integers with opaque expressions
+<li> string = Replace literal strings with calls to a function that generates them
+<li> * = Same as integer,string
 </ul>
 </td>
 </tr>
@@ -713,20 +751,20 @@
 <td>opaque, split</td>
 <td> Specify how to encode integer literals. Default=opaque.
 <ul>
-   <li> opaque = Replace literal integers with opaque expressions
-   <li> split = Replace literal integers by splitting into subparts, and then doing EncodeArithmetic on them.
+<li> opaque = Replace literal integers with opaque expressions
+<li> split = Replace literal integers by splitting into subparts, and then doing EncodeArithmetic on them.
 </ul>
 </td>
 </tr>
-</table>
+</table><br><br>
 
 ### Functions: Split
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -738,12 +776,12 @@
 <td>top, block, deep, recursive, level, inside</td>
 <td> Comma-separated list specifying the order in which different split methods are attempted. Default=top,block,deep,recursive.
 <ul>
-   <li> top = split the top-level list of statements into two functions funcname_split_1 and funcname_split_2.
-   <li> block = split a basic block (list of assignment and call statements) into two functions.
-   <li> deep = split out a nested control structure of at least height>2 into its own function funcname_split_1.
-   <li> recursive = same as block, but calls to split functions are also allowed to be split out.
-   <li> level = split out a statement at a level specified by --SplitLevel.
-   <li> inside = split out a statement at the innermost nesting level.
+<li> top = split the top-level list of statements into two functions funcname_split_1 and funcname_split_2.
+<li> block = split a basic block (list of assignment and call statements) into two functions.
+<li> deep = split out a nested control structure of at least height>2 into its own function funcname_split_1.
+<li> recursive = same as block, but calls to split functions are also allowed to be split out.
+<li> level = split out a statement at a level specified by --SplitLevel.
+<li> inside = split out a statement at the innermost nesting level.
 </ul>
 </td>
 </tr>
@@ -767,15 +805,15 @@
 <td><em><a>BOOLSPEC</a></em></td>
 <td> Pass local variables as formals to split out functions. Can cause functions to have many arguments which can be a problem for languages like WebAssembly that puts a limit on the number of function arguments. Default=true.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Functions: Merge
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -797,9 +835,9 @@
 <td>list, array, *</td>
 <td> Type of opaque predicate to use. Traditionally, for this transformation, array is used. Default=array.
 <ul>
-   <li> list = Generate opaque expressions using linked lists
-   <li> array = Generate opaque expressions using arrays
-   <li> * = Same as list,array
+<li> list = Generate opaque expressions using linked lists
+<li> array = Generate opaque expressions using arrays
+<li> * = Same as list,array
 </ul>
 </td>
 </tr>
@@ -813,10 +851,10 @@
 <td>switch, goto, indirect, ?</td>
 <td> Dispatch method used for flattened merge. Default=switch.
 <ul>
-   <li> switch = dispatch by while(1) {switch (next) {blocks}}
-   <li> goto = dispatch by {labl1: block1; goto block2;}
-   <li> indirect = dispatch by goto* (jtab[next])
-   <li> ? = select an dispatch method at random.
+<li> switch = dispatch by while(1) {switch (next) {blocks}}
+<li> goto = dispatch by {labl1: block1; goto block2;}
+<li> indirect = dispatch by goto* (jtab[next])
+<li> ? = select an dispatch method at random.
 </ul>
 </td>
 </tr>
@@ -835,21 +873,21 @@
 <td>branch, compute, flag</td>
 <td> If merging before flattening, this option describes ways to transform conditional branches. Default=branch.
 <ul>
-   <li> branch = Use normal branches, such as if (a>b) goto L1 else goto L2
-   <li> compute = Compute the branch, such as x=(a>b); goto *(<em>expression over x</em>)
-   <li> flag = Compute the branch from the values of the flag register, such as asm("cmp a b;pushf;pop"); goto *(<em>expression over flag register</em>)
+<li> branch = Use normal branches, such as if (a>b) goto L1 else goto L2
+<li> compute = Compute the branch, such as x=(a>b); goto *(<em>expression over x</em>)
+<li> flag = Compute the branch from the values of the flag register, such as asm("cmp a b;pushf;pop"); goto *(<em>expression over flag register</em>)
 </ul>
 </td>
 </tr>
-</table>
+</table><br><br>
 
 ### Functions: Randomize Arguments
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -861,15 +899,15 @@
 <td><em><a>INTSPEC</a></em></td>
 <td> Number of bogus arguments to add. Default=0.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Functions: Inline
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -891,22 +929,22 @@
 <td>constProp, copyProp, mergeLocals, gotos</td>
 <td> List of optimizing transformations to apply Default=NONE.
 <ul>
-   <li> constProp = <em>Constant Propagation</em>, i.e. replace a variable with its value, if it is constant.
-   <li> copyProp = <em>Copy Propagation</em>, i.e. after the assignment x=y replaces uses of variable x with y.
-   <li> mergeLocals = Reduce the number of local variables by merging locals that are not live at the same time. Particularly useful after inlining.
-   <li> gotos = Remove extra labels and gotos that were inserted during the inlining process.
+<li> constProp = <em>Constant Propagation</em>, i.e. replace a variable with its value, if it is constant.
+<li> copyProp = <em>Copy Propagation</em>, i.e. after the assignment x=y replaces uses of variable x with y.
+<li> mergeLocals = Reduce the number of local variables by merging locals that are not live at the same time. Particularly useful after inlining.
+<li> gotos = Remove extra labels and gotos that were inserted during the inlining process.
 </ul>
 </td>
 </tr>
-</table>
+</table><br><br>
 
 ### Functions: Copy
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -918,15 +956,15 @@
 <td>string</td>
 <td> Name of the new function. Default=Current name followed by '_' and a random number.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Functions: Random Function
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -998,12 +1036,12 @@
 <td>char, short, int, long, float, double</td>
 <td> Type of input/output/state. Default=long.
 <ul>
-   <li> char = C int type
-   <li> short = C int type
-   <li> int = C int type
-   <li> long = C long type
-   <li> float = C float type
-   <li> double = C double type
+<li> char = C int type
+<li> short = C int type
+<li> int = C int type
+<li> long = C long type
+<li> float = C float type
+<li> double = C double type
 </ul>
 </td>
 </tr>
@@ -1017,11 +1055,11 @@
 <td>message, abort, segv, random, assign</td>
 <td> The manner in which a triggered asset may fail. Comma-separated list. Default=segv.
 <ul>
-   <li> message = Print a message.
-   <li> abort = Call the abort function.
-   <li> segv = Die with a segmentation fault.
-   <li> random = Insert some random bytes which, when executed, will probably cause the program to misbehave.
-   <li> assign = Insert some random assignments that, when executed, are likely to cause the program to produce the wrong output.
+<li> message = Print a message.
+<li> abort = Call the abort function.
+<li> segv = Die with a segmentation fault.
+<li> random = Insert some random bytes which, when executed, will probably cause the program to misbehave.
+<li> assign = Insert some random assignments that, when executed, are likely to cause the program to produce the wrong output.
 </ul>
 </td>
 </tr>
@@ -1030,8 +1068,8 @@
 <td>argv, stdin</td>
 <td> How inputs are read by the program, through the command line or stdin. Default=argv.
 <ul>
-   <li> argv = Enter input to the program on the command line.
-   <li> stdin = Enter input to the program through stdin.
+<li> argv = Enter input to the program on the command line.
+<li> stdin = Enter input to the program through stdin.
 </ul>
 </td>
 </tr>
@@ -1040,9 +1078,9 @@
 <td>int, float, string</td>
 <td> What is the type of the input being read from the user. Default=int.
 <ul>
-   <li> int = Enter input as a decimal integer.
-   <li> float = Enter input as decimal float.
-   <li> string = Enter input as an ASCII string.
+<li> int = Enter input as a decimal integer.
+<li> float = Enter input as decimal float.
+<li> string = Enter input as an ASCII string.
 </ul>
 </td>
 </tr>
@@ -1101,10 +1139,10 @@
 <td>constant, input, boundedInput, boundedAny</td>
 <td> The allowable upper bound in a for-statement. Comma-separated list. Default=constant.
 <ul>
-   <li> constant = Literal integer.
-   <li> input = Value from the input array, could cause index out of bounds.
-   <li> boundedInput = Value from the input array, will not cause index out of bounds.
-   <li> boundedAny = Value from the any source, will not cause index out of bounds.
+<li> constant = Literal integer.
+<li> input = Value from the input array, could cause index out of bounds.
+<li> boundedInput = Value from the input array, will not cause index out of bounds.
+<li> boundedAny = Value from the any source, will not cause index out of bounds.
 </ul>
 </td>
 </tr>
@@ -1113,23 +1151,23 @@
 <td>PlusA, MinusA, Mult, Div, Mod, Shiftlt, Shiftrt, Lt, Gt, Le, Ge, Eq, Ne, BAnd, BXor, BOr, *</td>
 <td> The allowable operators in expressions. Comma-separated list. Default=all.
 <ul>
-   <li> PlusA = +
-   <li> MinusA = -
-   <li> Mult = *
-   <li> Div = /
-   <li> Mod = %
-   <li> Shiftlt = <<
-   <li> Shiftrt = >>
-   <li> Lt = <
-   <li> Gt = >
-   <li> Le = =<
-   <li> Ge = >=
-   <li> Eq = ==
-   <li> Ne = !=
-   <li> BAnd = &
-   <li> BXor = ^
-   <li> BOr = |
-   <li> * = all operators
+<li> PlusA = +
+<li> MinusA = -
+<li> Mult = *
+<li> Div = /
+<li> Mod = %
+<li> Shiftlt = <<
+<li> Shiftrt = >>
+<li> Lt = <
+<li> Gt = >
+<li> Le = =<
+<li> Ge = >=
+<li> Eq = ==
+<li> Ne = !=
+<li> BAnd = &
+<li> BXor = ^
+<li> BOr = |
+<li> * = all operators
 </ul>
 </td>
 </tr>
@@ -1138,15 +1176,15 @@
 <td>BOOL</td>
 <td> Add if (output[0] == 4242424242U) printf("You win!\n"); after the call to the generated function. The idea is to replace (by hand) 4242424242U with one actual output of the function. This can be used as another reverse engineering challenge: "<em>Find an input for which the program prints "You win!.</em> Default=false.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Integrity: Checksum
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1158,10 +1196,10 @@
 <td>local, function, string, data</td>
 <td> Where to insert checker templates. Default=local.
 <ul>
-   <li> local = The text segment, i.e. the code bytes.
-   <li> function = The string segment.
-   <li> string = The constant data segment.
-   <li> data = The data segment. Currently not supported.
+<li> local = The text segment, i.e. the code bytes.
+<li> function = The string segment.
+<li> string = The constant data segment.
+<li> data = The data segment. Currently not supported.
 </ul>
 </td>
 </tr>
@@ -1170,12 +1208,12 @@
 <td>add, mul, xor, linear, quadratic, random</td>
 <td> Kinds of expressions to use in the hash function. Default=xor.
 <ul>
-   <li> add = The body of the hash function performs hash += codeByte.
-   <li> mul = The body of the hash function performs hash *= codeByte.
-   <li> xor = The body of the hash function performs hash ^= codeByte.
-   <li> linear = The body of the hash function performs hash = hash * small_odd_int + codeByte.
-   <li> quadratic = The body of the hash function performs hash = hash * hash * small_odd_int + hash * small_odd_int + codeByte.
-   <li> random = The body of the hash function performs hash += random_function(hash, codeByte).
+<li> add = The body of the hash function performs hash += codeByte.
+<li> mul = The body of the hash function performs hash *= codeByte.
+<li> xor = The body of the hash function performs hash ^= codeByte.
+<li> linear = The body of the hash function performs hash = hash * small_odd_int + codeByte.
+<li> quadratic = The body of the hash function performs hash = hash * hash * small_odd_int + hash * small_odd_int + codeByte.
+<li> random = The body of the hash function performs hash += random_function(hash, codeByte).
 </ul>
 </td>
 </tr>
@@ -1184,8 +1222,8 @@
 <td>int32, int64</td>
 <td> Comma-separated list of the kinds of expressions to use in the hash functions. Default=int32,int64.
 <ul>
-   <li> int32 = A 32-bit value.
-   <li> int64 = A 64-bit value.
+<li> int32 = A 32-bit value.
+<li> int64 = A 64-bit value.
 </ul>
 </td>
 </tr>
@@ -1199,15 +1237,15 @@
 <td><em><a>BOOLSPEC</a></em></td>
 <td> Obfuscate the body of the hash function. Default=false.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Integrity: Self Modify
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1219,9 +1257,9 @@
 <td>indirectBranch, arithmetic, comparisons</td>
 <td> Types of instructions to self-modify. Default=indirectBranch.
 <ul>
-   <li> indirectBranch = Transform indirect branches
-   <li> arithmetic = Transform binary arithmetic expressions
-   <li> comparisons = Transform binary comparisons
+<li> indirectBranch = Transform indirect branches
+<li> arithmetic = Transform binary arithmetic expressions
+<li> comparisons = Transform binary comparisons
 </ul>
 </td>
 </tr>
@@ -1230,9 +1268,9 @@
 <td>clobber, stack, text</td>
 <td> What style of inline assembly code to generate. Default=NONE.
 <ul>
-   <li> clobber = Tell the compiler which registers the code is modifying.
-   <li> stack = Store modified registers on the stack.
-   <li> text = Store modified registers in the text segment.
+<li> clobber = Tell the compiler which registers the code is modifying.
+<li> stack = Store modified registers on the stack.
+<li> text = Store modified registers in the text segment.
 </ul>
 </td>
 </tr>
@@ -1251,20 +1289,20 @@
 <td>PlusA, MinusA, Mult, Div, Mod, Shiftlt, Shiftrt, Lt, Gt, Le, Ge, Eq, Ne, *</td>
 <td> Which binary operators to modify. Default=*.
 <ul>
-   <li> PlusA = +
-   <li> MinusA = -
-   <li> Mult = *
-   <li> Div = /
-   <li> Mod = %
-   <li> Shiftlt = <<
-   <li> Shiftrt = >>
-   <li> Lt = <
-   <li> Gt = >
-   <li> Le = =<
-   <li> Ge = >=
-   <li> Eq = ==
-   <li> Ne = !=
-   <li> * = all operators
+<li> PlusA = +
+<li> MinusA = -
+<li> Mult = *
+<li> Div = /
+<li> Mod = %
+<li> Shiftlt = <<
+<li> Shiftrt = >>
+<li> Lt = <
+<li> Gt = >
+<li> Le = =<
+<li> Ge = >=
+<li> Eq = ==
+<li> Ne = !=
+<li> * = all operators
 </ul>
 </td>
 </tr>
@@ -1273,30 +1311,30 @@
 <td><em><a>INTSPEC</a></em></td>
 <td> How many bogus instructions to insert inside the self-modify template to avoid pattern-matching attacks. Right now, the inserted instructions are simple 1-byte x86 instructions that are equivalent to NOPs. Default=0.</td>
 </tr>
-</table>
+</table><br><br>
 
-## Environment Transformations: Encode External
+### Environment Transformations: Encode External
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
 <td>InitEncodeExternal</td>
 <td> Replace direct system calls with indirect ones through dlsym. </td>
 </tr>
-</table>
+</table><br><br>
 
-## Environment Transformations: Check Environment
+### Environment Transformations: Check Environment
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1313,14 +1351,14 @@
 <td>gdb, lldb, bochs, vmware, virtualBox, qemu, pin, cuckoo</td>
 <td> The list of sandbxes that should be detected. Default=None.
 <ul>
-   <li> gdb = The gdb debugger
-   <li> lldb = The lldb debugger
-   <li> bochs = The Bochs emulator
-   <li> vmware = The VMware virtual machine
-   <li> virtualBox = The VirtualBox virtual machine
-   <li> qemu = The QEMU emulator
-   <li> pin = The Intel Pin tracing tool
-   <li> cuckoo = The Cuckoo sandbox
+<li> gdb = The gdb debugger
+<li> lldb = The lldb debugger
+<li> bochs = The Bochs emulator
+<li> vmware = The VMware virtual machine
+<li> virtualBox = The VirtualBox virtual machine
+<li> qemu = The QEMU emulator
+<li> pin = The Intel Pin tracing tool
+<li> cuckoo = The Cuckoo sandbox
 </ul>
 </td>
 </tr>
@@ -1329,22 +1367,22 @@
 <td>abort, modifyGlobal, random, plugin</td>
 <td> Comma-separated list of ways to respond when a check fails. Default=None.
 <ul>
-   <li> abort = Call the abort function
-   <li> modifyGlobal = Make random modification to a global variable
-   <li> random = Execute random bytes
-   <li> plugin = Call one of the plugin responders
+<li> abort = Call the abort function
+<li> modifyGlobal = Make random modification to a global variable
+<li> random = Execute random bytes
+<li> plugin = Call one of the plugin responders
 </ul>
 </td>
 </tr>
-</table>
+</table><br><br>
 
 ### Anti Analysis Transformations: AntiAliasAnalysis
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1361,15 +1399,15 @@
 <td><a>BOOLSPEC</a></td>
 <td> Add bogus function addresses, and bogus updates to them. Default=true.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Anti Analysis Transformations: AntiTaintAnalysis
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1381,10 +1419,10 @@
 <td>argv, sysCalls, vars, *</td>
 <td> Comma-separated list of the kinds of anti-taint analysis transformations to employ. Default=none.
 <ul>
-   <li> argv = Insert implicit flow from argv and argc in main.
-   <li> sysCalls = Insert implicit flow from output variables of common system calls.
-   <li> vars = Insert implicit flow to a variable whenever it is written to. Use --LocalVariables=.. and --GlobalVariables=... to specify which variables should be copied.
-   <li> * = Same as all options turned on.
+<li> argv = Insert implicit flow from argv and argc in main.
+<li> sysCalls = Insert implicit flow from output variables of common system calls.
+<li> vars = Insert implicit flow to a variable whenever it is written to. Use --LocalVariables=.. and --GlobalVariables=... to specify which variables should be copied.
+<li> * = Same as all options turned on.
 </ul>
 </td>
 </tr>
@@ -1393,9 +1431,9 @@
 <td>getpid, scanf, *</td>
 <td> Comma-separated list of the system calls whose output should be passed through implicit flow. Only two calls are currently implemented. Default=all system calls.
 <ul>
-   <li> getpid = Insert implicit flow to the output of getpid.
-   <li> scanf = Insert implicit flow to the output of scanf.
-   <li> * = Same as all options turned on.
+<li> getpid = Insert implicit flow to the output of getpid.
+<li> scanf = Insert implicit flow to the output of scanf.
+<li> * = Same as all options turned on.
 </ul>
 </td>
 </tr>
@@ -1404,24 +1442,24 @@
 <td>single, compose, select, majority, repeat, until</td>
 <td> S-expression of the implicit flow combiners to use. Default=none.
 <ul>
-   <li> single = The expression (single a) inserts a simple implicit flow, where a is one of
-   <li> compose = The S-expression (compose a b c) inserts an implicit flow where the output of a
-   <li> select = The S-expression (select a b c) inserts an implicit flow that picks among a,b,c
-   <li> majority = The S-expression (majority a b c) inserts an implicit flow that uses majority logic
-   <li> repeat = The S-expression (repeat a n) (where n is an integer) is equivalent to
-   <li> until = The S-expression (until a m n) (where m,n are integers, m < n)
+<li> single = The expression (single a) inserts a simple implicit flow, where a is one of
+<li> compose = The S-expression (compose a b c) inserts an implicit flow where the output of a
+<li> select = The S-expression (select a b c) inserts an implicit flow that picks among a,b,c
+<li> majority = The S-expression (majority a b c) inserts an implicit flow that uses majority logic
+<li> repeat = The S-expression (repeat a n) (where n is an integer) is equivalent to
+<li> until = The S-expression (until a m n) (where m,n are integers, m < n)
 </ul>
 </td>
 </tr>
-</table>
+</table><br><br>
 
 ### Anti Analysis Transformations: Opaque Predicate
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1433,11 +1471,11 @@
 <td>list, array, input, env, *</td>
 <td> Comma-separated list of the kinds of opaque constructs to add. Default=list,array.
 <ul>
-   <li> list = Generate opaque expressions using linked lists
-   <li> array = Generate opaque expressions using arrays
-   <li> input = Generate opaque expressions that depend on input. Requires --Inputs to set invariants over input.
-   <li> env = Generate opaque expressions from entropy. Requires --InitEntropy.
-   <li> * = Same as list,array,input,env
+<li> list = Generate opaque expressions using linked lists
+<li> array = Generate opaque expressions using arrays
+<li> input = Generate opaque expressions that depend on input. Requires --Inputs to set invariants over input.
+<li> env = Generate opaque expressions from entropy. Requires --InitEntropy.
+<li> * = Same as list,array,input,env
 </ul>
 </td>
 </tr>
@@ -1451,9 +1489,9 @@
 <td>update, use, check</td>
 <td> Trace opaque structures and values as they are generated during execution. This used to be a boolean, but from version 3.3, it can take on multiple values. Default=NONE.
 <ul>
-   <li> update = Print the generated structure
-   <li> use = Print every use of an opaque value
-   <li> check = Print only if an opaque value is wrong
+<li> update = Print the generated structure
+<li> use = Print every use of an opaque value
+<li> check = Print only if an opaque value is wrong
 </ul>
 </td>
 </tr>
@@ -1467,15 +1505,15 @@
 <td><em><a>INTSPEC</a></em></td>
 <td> Size of opaque arrays. Default=30.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Anti Analysis Transformations: Implicit flow
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1487,27 +1525,27 @@
 <td>counter_int, counter_float, counter_signal, bitcopy_unrolled, bitcopy_loop, bitcopy_signal, file_write, lookup_byteArray, trivial_clock, trivial_thread_1, trivial_thread_2, trivial_counter, file_cache_time, file_cache_thread_1, file_cache_thread_2, mem_cache_time, mem_cache_thread_1, mem_cache_thread_2, jit_time, branchPrediction_time, *</td>
 <td> Comma-separated list of the kinds of implicit flow that can be inserted. Default=all options.
 <ul>
-   <li> counter_int = Copy a variable by counting up to its value.
-   <li> counter_float = Copy a variable by counting up to its value.
-   <li> counter_signal = Copy a variable by counting up to its value in a signal handler.
-   <li> bitcopy_unrolled = Copy a variable bit-by-bit, each bit tested by an if-statement.
-   <li> bitcopy_loop = Loop over the bits in a variable and copy each bit by testing in an if-statement.
-   <li> bitcopy_signal = Loop over the bits in a variable and copy each bit in a signal handler.
-   <li> file_write = Copy a variable byte-by-byte by writing to a file.
-   <li> lookup_byteArray = Copy a variable byte-by-byte by looking up each byte in a table.
-   <li> trivial_clock = Copy a variable by timing a trivial loop
-   <li> trivial_thread_1 = Copy a variable by timing a trivial loop, using 1 thread for timing
-   <li> trivial_thread_2 = Copy a variable by timing a trivial loop, using 2 threads for timing
-   <li> trivial_counter = Copy a variable by timing (using performance counters) a trivial loop
-   <li> file_cache_time = Copy a variable by timing a file being read with caching turned on or off.
-   <li> file_cache_thread_1 = Copy a variable by timing a file being read with caching turned on or off, but using 1 thread for timing.
-   <li> file_cache_thread_2 = Copy a variable by timing a file being read with caching turned on or off, but using 2 threads for timing.
-   <li> mem_cache_time = Copy a variable by timing a CPU data cache being read with or without caching
-   <li> mem_cache_thread_1 = Copy a variable by timing a CPU data cache being read with or without caching, but using 1 thread for timing.
-   <li> mem_cache_thread_2 = Copy a variable by timing a CPU data cache being read with or without caching, but using 2 threads for timing.
-   <li> jit_time = Copy a variable by timing a jitted function.
-   <li> branchPrediction_time = Copy a variable by timing the CPU's branch prediction.
-   <li> * = Same as all options turned on.
+<li> counter_int = Copy a variable by counting up to its value.
+<li> counter_float = Copy a variable by counting up to its value.
+<li> counter_signal = Copy a variable by counting up to its value in a signal handler.
+<li> bitcopy_unrolled = Copy a variable bit-by-bit, each bit tested by an if-statement.
+<li> bitcopy_loop = Loop over the bits in a variable and copy each bit by testing in an if-statement.
+<li> bitcopy_signal = Loop over the bits in a variable and copy each bit in a signal handler.
+<li> file_write = Copy a variable byte-by-byte by writing to a file.
+<li> lookup_byteArray = Copy a variable byte-by-byte by looking up each byte in a table.
+<li> trivial_clock = Copy a variable by timing a trivial loop
+<li> trivial_thread_1 = Copy a variable by timing a trivial loop, using 1 thread for timing
+<li> trivial_thread_2 = Copy a variable by timing a trivial loop, using 2 threads for timing
+<li> trivial_counter = Copy a variable by timing (using performance counters) a trivial loop
+<li> file_cache_time = Copy a variable by timing a file being read with caching turned on or off.
+<li> file_cache_thread_1 = Copy a variable by timing a file being read with caching turned on or off, but using 1 thread for timing.
+<li> file_cache_thread_2 = Copy a variable by timing a file being read with caching turned on or off, but using 2 threads for timing.
+<li> mem_cache_time = Copy a variable by timing a CPU data cache being read with or without caching
+<li> mem_cache_thread_1 = Copy a variable by timing a CPU data cache being read with or without caching, but using 1 thread for timing.
+<li> mem_cache_thread_2 = Copy a variable by timing a CPU data cache being read with or without caching, but using 2 threads for timing.
+<li> jit_time = Copy a variable by timing a jitted function.
+<li> branchPrediction_time = Copy a variable by timing the CPU's branch prediction.
+<li> * = Same as all options turned on.
 </ul>
 </td>
 </tr>
@@ -1536,8 +1574,8 @@
 <td>gap, resend</td>
 <td> How to do the training. Either by simply looking for a gap between slow and fast times, or to do a more sophisticated statistical test. Default=gap.
 <ul>
-   <li> gap = Look for a gap between slow and fast times.
-   <li> resend = Use a more sophisticated statistical test, resending each bit until a guaranteed confindence level and target error rate has been achieved. Set these with --InitImplicitFlowTrainingResendConfidenceLevel=... and --InitImplicitFlowTrainingResendTargetErrorRate=....
+<li> gap = Look for a gap between slow and fast times.
+<li> resend = Use a more sophisticated statistical test, resending each bit until a guaranteed confindence level and target error rate has been achieved. Set these with --InitImplicitFlowTrainingResendConfidenceLevel=... and --InitImplicitFlowTrainingResendTargetErrorRate=....
 </ul>
 </td>
 </tr>
@@ -1601,15 +1639,15 @@
 <td><em>SExpression</em></td>
 <td> Set training data from previous run of --InitImplicitFlowTrain. Default=none.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Other: Optimize
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1621,9 +1659,9 @@
 <td>constProp, copyProp, mergeLocals</td>
 <td> List of optimizing transformations to apply Default=NONE.
 <ul>
-   <li> constProp = <em>Constant Propagation</em>, i.e. replace a variable with its value, if it is constant.
-   <li> copyProp = <em>Copy Propagation</em>, i.e. after the assignment x=y replaces uses of variable x with y.
-   <li> mergeLocals = Reduce the number of local variables by merging locals that are not live at the same time. Particularly useful after inlining,
+<li> constProp = <em>Constant Propagation</em>, i.e. replace a variable with its value, if it is constant.
+<li> copyProp = <em>Copy Propagation</em>, i.e. after the assignment x=y replaces uses of variable x with y.
+<li> mergeLocals = Reduce the number of local variables by merging locals that are not live at the same time. Particularly useful after inlining,
 </ul>
 </td>
 </tr>
@@ -1637,15 +1675,15 @@
 <td></td>
 <td> For, mergeLocals, generate short names for merged local variables, instead of the default var1_var2_.... Default=False.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Other: Software Metrics
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1657,9 +1695,9 @@
 <td>raw, halstead, mccabe</td>
 <td> What metric to compute. Default=halstead,mccabe.
 <ul>
-   <li> raw = Raw counts of tokens, identifiers, etc.
-   <li> halstead = The Halstead metric.
-   <li> mccabe = McCabe's Cyclomatric Complexity metric.
+<li> raw = Raw counts of tokens, identifiers, etc.
+<li> halstead = The Halstead metric.
+<li> mccabe = McCabe's Cyclomatric Complexity metric.
 </ul>
 </td>
 </tr>
@@ -1673,15 +1711,15 @@
 <td>string</td>
 <td> On which file to print the metrics in Json format.  <b>From version 3.3.</b> Default=Stdout.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Other: Info
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1693,21 +1731,21 @@
 <td>src, cilCfg, tigressCfg, fun, ast, json, linear, linearJson, linearSource, alias, globals, universe, flat_globals, builtins, src2cil</td>
 <td> Information to print. For cfg, fun, and linear use --Functions, as usual, to specify which functions to print. --Transform=Info --InfoKind=src --Functions=foo is a good way to examine a function after each transformation. 
 <ul>
-   <li> src = Print the functions specified by --Functions in source form on standard output.
-   <li> cilCfg = Print CIL's Control Flow Graph for the functions specified by --Functions on standard output.
-   <li> tigressCfg = Output Tigress' Control Flow Graph in graphviz format. If you specify --Functions=foo, the dot file will be named foo.gv. Compile with <code>dot -Tpdf foo.dot > foo.pdf</code>.
-   <li> fun = Print the functions specified by --Functions in an internal format
-   <li> ast = Output the Abstract Syntax Tree of the functions specified by --Functions. If you specify --Functions=foo, the dot file will be named foo.gv. Compile with <code>dot -Tpdf foo.dot > foo.pdf</code>.
-   <li> json = Output the Abstract Syntax Tree of the functions specified by --Functions in JSON format on standar output. Set --Verbosity to adjust the amount of information presented.
-   <li> linear = Function in internal linearized block format (used as a starting point for flattening and branch functions)
-   <li> linearJson = As "linear" but in a Json format.
-   <li> linearSource = As "linear" but in a more C-like format.
-   <li> alias = Print the pointer-graphs
-   <li> globals = Print all symbols in the original program in an easy to parse format. This is useful to extract the names of and signatures of functions, local variables and their types, etc from a C program.
-   <li> universe = Print the current universe of symbols.
-   <li> flat_globals = Save the all C objects from the input file into the json file given by <code>--InfoGlobalsFileName</code>. This is a simple flat format useful for reading into other programs that need to know the functions, types, local variables etc defined by a program.
-   <li> builtins = Print all the builtins (and their signatures) that Tigress knows about.
-   <li> src2cil = Print all the globals as OCaml/Cil.
+<li> src = Print the functions specified by --Functions in source form on standard output.
+<li> cilCfg = Print CIL's Control Flow Graph for the functions specified by --Functions on standard output.
+<li> tigressCfg = Output Tigress' Control Flow Graph in graphviz format. If you specify --Functions=foo, the dot file will be named foo.gv. Compile with <code>dot -Tpdf foo.dot > foo.pdf</code>.
+<li> fun = Print the functions specified by --Functions in an internal format
+<li> ast = Output the Abstract Syntax Tree of the functions specified by --Functions. If you specify --Functions=foo, the dot file will be named foo.gv. Compile with <code>dot -Tpdf foo.dot > foo.pdf</code>.
+<li> json = Output the Abstract Syntax Tree of the functions specified by --Functions in JSON format on standar output. Set --Verbosity to adjust the amount of information presented.
+<li> linear = Function in internal linearized block format (used as a starting point for flattening and branch functions)
+<li> linearJson = As "linear" but in a Json format.
+<li> linearSource = As "linear" but in a more C-like format.
+<li> alias = Print the pointer-graphs
+<li> globals = Print all symbols in the original program in an easy to parse format. This is useful to extract the names of and signatures of functions, local variables and their types, etc from a C program.
+<li> universe = Print the current universe of symbols.
+<li> flat_globals = Save the all C objects from the input file into the json file given by <code>--InfoGlobalsFileName</code>. This is a simple flat format useful for reading into other programs that need to know the functions, types, local variables etc defined by a program.
+<li> builtins = Print all the builtins (and their signatures) that Tigress knows about.
+<li> src2cil = Print all the globals as OCaml/Cil.
 </ul>
 </td>
 </tr>
@@ -1736,15 +1774,15 @@
 <td>string</td>
 <td> Include comments in the code generated by --InfoKind=src2cil. <b>From version 4.0.6</b> Default=true.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Other: Generate Entropy
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1756,9 +1794,9 @@
 <td>raw, halstead, mccabe</td>
 <td> What metric to compute. Default=halstead,mccabe.
 <ul>
-   <li> raw = Raw counts of tokens, identifiers, etc.
-   <li> halstead = The Halstead metric.
-   <li> mccabe = McCabe's Cyclomatric Complexity metric.
+<li> raw = Raw counts of tokens, identifiers, etc.
+<li> halstead = The Halstead metric.
+<li> mccabe = McCabe's Cyclomatric Complexity metric.
 </ul>
 </td>
 </tr>
@@ -1772,15 +1810,15 @@
 <td>string</td>
 <td> On which file to print the metrics in Json format.  <b>From version 3.3.</b> Default=Stdout.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Other: Measure
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1792,7 +1830,7 @@
 <td>time</td>
 <td> Resource to measure. Default=time.
 <ul>
-   <li> time = Measure time.
+<li> time = Measure time.
 </ul>
 </td>
 </tr>
@@ -1801,15 +1839,15 @@
 <td><em><a>INTSPEC</a></em></td>
 <td> Number of times to run the function. Default=1.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Other: Leak information
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1836,9 +1874,9 @@
 <td>static, dynamic, dynamic_byte</td>
 <td> Select the kind of leaking code to be inserted. Default=static.
 <ul>
-   <li> static = insert the encrypted code into a variable
-   <li> dynamic = return the encrypted code when a particular formal parameter has a particular value
-   <li> dynamic_byte = return the i:th byte of the encrypted code depending on the value of the formal parameter
+<li> static = insert the encrypted code into a variable
+<li> dynamic = return the encrypted code when a particular formal parameter has a particular value
+<li> dynamic_byte = return the i:th byte of the encrypted code depending on the value of the formal parameter
 </ul>
 </td>
 </tr>
@@ -1847,15 +1885,15 @@
 <td><em>boolean</em></td>
 <td> Turn debugging on or off. Default=false.</td>
 </tr>
-</table>
+</table><br><br>
 
 ### Other: Clean Up
 <table>
-    <colgroup>
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 60%;">
-    </colgroup>
+<colgroup>
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 20%;">
+   <col span="1" style="width: 60%;">
+</colgroup>
 <tr><th>Option</th><th>Arguments</th><th>Description</th></tr>
 <tr>
 <td>--Transform</td>
@@ -1867,15 +1905,15 @@
 <td>names, annotations, constants, randomize, compress, noExterns, noMain, removeUnusedFunctions, *</td>
 <td> Specify types of cleanup to perform Default=names,annotations,constants,randomize.
 <ul>
-   <li> names = Replace identifiers with less obvious ones
-   <li> annotations = Remove annotations that Tigress uses internally. Tigress should not be called again on a file that has had annotations removed
-   <li> constants = Fold constant expressions
-   <li> randomize = Randomly reorder functions in the output file
-   <li> compress = Compress the output file by removing blank lines and extra spaces
-   <li> noExterns = Do not output any extern declarations. Instead, you must insert the corresponding #inlude files.
-   <li> noMain = Do not outout the main() function. This can be useful if you are transforming a library, and inserted a dummy main() that should be removed.
-   <li> removeUnusedFunctions = Remove functions not reachable from main(). Use --CleanUpRoots for functions not reachable from main, but which are still invoked spontaneously.
-   <li> * = Same as names,annotations,constants
+<li> names = Replace identifiers with less obvious ones
+<li> annotations = Remove annotations that Tigress uses internally. Tigress should not be called again on a file that has had annotations removed
+<li> constants = Fold constant expressions
+<li> randomize = Randomly reorder functions in the output file
+<li> compress = Compress the output file by removing blank lines and extra spaces
+<li> noExterns = Do not output any extern declarations. Instead, you must insert the corresponding #inlude files.
+<li> noMain = Do not outout the main() function. This can be useful if you are transforming a library, and inserted a dummy main() that should be removed.
+<li> removeUnusedFunctions = Remove functions not reachable from main(). Use --CleanUpRoots for functions not reachable from main, but which are still invoked spontaneously.
+<li> * = Same as names,annotations,constants
 </ul>
 </td>
 </tr>
@@ -1899,4 +1937,6 @@
 <td><em>String,String,...</em></td>
 <td> For the removeUnusedFunctions transformation, you can provide a comma-separated list of function names which are spontaneously called. Normally, this is just 'main', but if you have functions which are run spontaneously as threads, for example, and not directly reachable from main, include them here. Similarly for functions whose address are taken but which are never invoked directly. Default=main.</td>
 </tr>
-</table>
+</table><br><br>
+
+## Some tests

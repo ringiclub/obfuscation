@@ -1,52 +1,44 @@
 # Introduction
-
 As part of my work-study program as a reverse engineer, I'm in charge of analyzing the various layers of obfuscation in compiled code through the interfaces of the Tigress and OLLVM compilers. The final rendering is a GUI overlay for three types of decompiler (IDA Pro, Ghidra, and Binary Ninja) to enable real-time code clean-up with a native C plugin or an external Python script (which I'll have to justify with a benchmark).
 
 ## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Obfuscation Overview](#obfuscation-overview)
-3. [Tigress Analysis](#tigress-analysis)
-4. [OLLVM Analysis](#ollvm-analysis)
-5. [Decompiler Interfacing](#decompiler-interfacing)
-6. [Benchmarks](#benchmarks)
-7. [References](#references)
+- [Introduction](#introduction)
+  - [Table of Contents](#table-of-contents)
+  - [Obfuscation Overview](#obfuscation-overview)
+  - [Obfuscation In General](#obfuscation-in-general)
+  - [Tigress Analysis](#tigress-analysis)
+  - [OLLVM Analysis](#ollvm-analysis)
+  - [Benchmarks](#benchmarks)
+  - [References](#references)
 
 ## Obfuscation Overview
-
 Software obfuscation is a method to make programs more difficult to reverse engineer. There are multiple reasons why this is done, such as protecting intellectual property, defense in depth, or hiding bugs. No matter the reason, there are multiple ways to make the software more difficult to understand, from fully manual modifications to advanced commercial obfuscation frameworks.
 
 Before trying to de-obfuscate anything and everything, you need to understand how obfuscation works, its different application and abstraction layers, and above all, how it works with LLVM and Tigress.
 
 For a detailed analysis, please refer to the following dedicated READMEs:
 
-- [Obfuscation Analysis](src/analysis/README.md)
+- [Obfuscation In General](src/analysis/README.md)
 - [Tigress Analysis](src/tigress/TEST)
 - [OLLVM Analysis](src/ollvm/README.md)
 - [Benchmarks](benchs/README.md)
 
 Go through each README for an in-depth look at the various aspects and techniques of obfuscation we are analyzing.
 
-## Obfuscation Analysis
-
+## Obfuscation In General
 The detailed analysis of general obfuscation techniques is documented [here](src/analysis/README.md).
 
 ## Tigress Analysis
-
 The detailed analysis of Tigress obfuscation techniques is documented [here](src/tigress/TEST).
 
 ## OLLVM Analysis
-
 The detailed analysis of OLLVM obfuscation techniques is documented [here](src/ollvm/README.md).
 
 ## Benchmarks
-
 To justify the use of a native C plugin versus an external Python script, benchmark details are provided [here](benchs/README.md).
 
 ## References
-
 Further references and readings are available in the main repository.
 
 ---
-
 Feel free to navigate through the links to get a more comprehensive understanding of each section.
