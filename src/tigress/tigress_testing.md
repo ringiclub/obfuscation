@@ -182,11 +182,182 @@ undefined8 main(undefined4 param_1,undefined8 param_2,undefined8 param_3)
 ### Command
 ```shell
 tigress \
-   --Environment=x86_64:Linux:Gcc:4.6 \
+   --Environment=x86_64:Linux:Gcc:11.4.0 \
    --Transform=InitOpaque \
    --Functions=* \
    obfuscation-demo.c \
-   --out=tigress/code/demo.c
+   --out=tigress/code/initOpaque.c
 ```
 
-- [mixedBooleanArithmetic](code/)
+# Mixed boolean arithmetic
+
+## Pseudo-code
+```c++
+
+undefined8 main(undefined4 param_1,undefined8 param_2,undefined8 param_3)
+
+{
+  long in_FS_OFFSET;
+  uint local_c0;
+  uint local_bc;
+  uint local_b8;
+  uint local_b4;
+  uint local_b0;
+  uint local_ac;
+  uint local_a8;
+  uint auStack_8c [5];
+  undefined4 local_78;
+  undefined4 local_74;
+  undefined4 local_70;
+  undefined4 local_6c;
+  undefined4 local_68;
+  uint auStack_58 [8];
+  char local_38;
+  undefined local_37;
+  undefined local_36;
+  undefined local_35;
+  undefined local_34;
+  undefined local_33;
+  undefined local_32;
+  undefined local_31;
+  undefined local_30;
+  undefined local_2f;
+  undefined local_2e;
+  undefined local_2d;
+  undefined local_2c;
+  undefined local_2b;
+  undefined local_2a;
+  undefined local_29;
+  undefined local_28;
+  undefined local_27;
+  undefined local_26;
+  undefined local_25;
+  undefined local_24;
+  undefined local_23;
+  undefined local_22;
+  undefined local_21;
+  undefined local_20;
+  undefined local_1f;
+  undefined local_1e;
+  undefined local_1d;
+  undefined local_1c;
+  undefined local_1b;
+  undefined local_1a;
+  undefined local_19;
+  undefined local_18;
+  undefined local_17;
+  undefined local_16;
+  long local_10;
+  
+  local_10 = *(long *)(in_FS_OFFSET + 0x28);
+  local_78 = 1;
+  local_74 = 2;
+  local_70 = 3;
+  local_6c = 4;
+  local_68 = 5;
+  for (local_c0 = 0; (int)((local_c0 - 2 ^ local_c0) & (local_c0 ^ 2) ^ local_c0 - 2) < 0;
+      local_c0 = (local_c0 | 1) * 2 - (local_c0 ^ 1)) {
+    auStack_8c[(int)local_c0] = auStack_8c[(long)(int)local_c0 + 5];
+  }
+  for (local_bc = 0; (int)((local_bc - 3 ^ local_bc) & (local_bc ^ 3) ^ local_bc - 3) < 0;
+      local_bc = (local_bc * 2 | 2) + (local_bc ^ 0xfffffffe) + 1) {
+    auStack_8c[(long)(int)local_bc + 2] = auStack_8c[(long)(int)(local_bc + 2) + 5];
+  }
+  local_b8 = 0;
+  while ((int)(((int)(-(uint)((int)local_b8 < 3) & 2 - local_b8) >> 0x1f) -
+              (2 - local_b8 & -(uint)((int)local_b8 < 3) ^
+              (int)(-(uint)((int)local_b8 < 3) & 2 - local_b8) >> 0x1f)) < 0) {
+    auStack_58[(int)local_b8] = auStack_8c[(int)local_b8];
+    local_b8 = (local_b8 & 1) * 2 + (local_b8 ^ 1);
+  }
+  local_b4 = 0;
+  while ((int)((int)(-(uint)((int)local_b4 < 4) & 3 - local_b4) >> 0x1f ^
+              ((int)(-(uint)((int)local_b4 < 4) & 3 - local_b4) >> 0x1f) -
+              (-(uint)((int)local_b4 < 4) & 3 - local_b4)) < 0) {
+    auStack_58[(int)(local_b4 + 2)] = auStack_8c[(long)(int)local_b4 + 2];
+    local_b4 = (local_b4 | 1) * 2 + (local_b4 ^ 0xfffffffe) + 1;
+  }
+  local_38 = 'C';
+  local_37 = 0x61;
+  local_36 = 0x6c;
+  local_35 = 99;
+  local_34 = 0x75;
+  local_33 = 0x6c;
+  local_32 = 0x61;
+  local_31 = 0x74;
+  local_30 = 0x69;
+  local_2f = 0x6e;
+  local_2e = 0x67;
+  local_2d = 0x20;
+  local_2c = 0x73;
+  local_2b = 0x75;
+  local_2a = 0x6d;
+  local_29 = 0x20;
+  local_28 = 0x6f;
+  local_27 = 0x66;
+  local_26 = 0x20;
+  local_25 = 0x61;
+  local_24 = 0x72;
+  local_23 = 0x72;
+  local_22 = 0x61;
+  local_21 = 0x79;
+  local_20 = 0x20;
+  local_1f = 0x65;
+  local_1e = 0x6c;
+  local_1d = 0x65;
+  local_1c = 0x6d;
+  local_1b = 0x65;
+  local_1a = 0x6e;
+  local_19 = 0x74;
+  local_18 = 0x73;
+  local_17 = 0x21;
+  local_16 = 0;
+  _global_argv = param_2;
+  _global_argc = param_1;
+  _global_envp = param_3;
+  puts(&local_38);
+  local_b0 = 0;
+  local_ac = 0;
+  while ((int)(((int)(-(uint)((int)local_ac < 6) & 5 - local_ac) >> 0x1f) -
+              (5 - local_ac & -(uint)((int)local_ac < 6) ^
+              (int)(-(uint)((int)local_ac < 6) & 5 - local_ac) >> 0x1f)) < 0) {
+    local_b0 = (auStack_58[(int)local_ac] | local_b0) * 2 + ~(auStack_58[(int)local_ac] ^ local_b0)
+               + 1;
+    local_ac = (local_ac * 2 & 2) + (local_ac ^ 1);
+  }
+  if ((int)((local_b0 >> 1) - local_b0) < 0) {
+    printf("Sum of array elements is %d\n",(ulong)local_b0);
+  }
+  else {
+    puts("Sum is zero");
+  }
+  local_a8 = 0;
+  while ((int)(((int)(-(uint)((int)local_a8 < 6) & 5 - local_a8) >> 0x1f) -
+              (5 - local_a8 & -(uint)((int)local_a8 < 6) ^
+              (int)(-(uint)((int)local_a8 < 6) & 5 - local_a8) >> 0x1f)) < 0) {
+    if (auStack_8c + 5 != (uint *)0x0) {
+      printf("Element %d: %d\n",(ulong)local_a8,(ulong)(auStack_8c + 5)[(int)local_a8]);
+    }
+    local_a8 = (local_a8 * 2 | 2) + (local_a8 ^ 0xfffffffe) + 1;
+  }
+  if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return 0;
+}
+```
+
+## Graph view
+![](../../assets/mba-pseudocode.png)
+
+### Command
+```shell
+tigress \
+  --Environment=x86_64:Linux:Gcc:11.4.0 \
+  --Transform=EncodeArithmetic \
+  --Functions=* \
+  --EncodeArithmeticKinds=* \
+  obfuscation-demo.c \
+  --out=tigress/code/MBA.c
+```
