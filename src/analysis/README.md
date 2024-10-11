@@ -536,7 +536,7 @@ In this way the original program semantics is realized implicitly by controlling
 Because the execution order of code blocks is determined by the variable dynamically, one cannot know the control flows without executing the program.
 
 Here is a great schemes to explain what do its look like from tree view:<br>
-![flattening](../../assets/tree_flattening.webp)
+![flattening](../../assets/images/tree_flattening.webp)
 
 ## Implicit controls
 This strategy converts explicit control instructions to implicit ones. It can hinder reverse engineers from addressing the correct control flows. For example, we can replace the control instructions of assembly codes (e.g., jmp and jne) with a combination of mov and other instructions which implement the same control semantics.

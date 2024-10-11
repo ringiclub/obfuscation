@@ -5,8 +5,8 @@ This file aim to show some testing on tigress, to demonstrate the changes after 
 
 # Opaque Predicate
 
-- [executable](code/initOpaque)
-- [obfuscated_source](code/initOpaque.c)
+- [executable](code/opaquePredicate.d/initOpaque)
+- [obfuscated_source](code/opaquePredicate.d/initOpaque.c)
 
 ## Pseudo-code
 ```C++
@@ -177,7 +177,7 @@ undefined8 main(undefined4 param_1,undefined8 param_2,undefined8 param_3)
 ```
 
 ## Graph view
-![](../../assets/initopaque-pseudocode.png)
+![](../../assets/images/pseucode/initopaque-pseudocode.png)
 
 ### Command
 ```shell
@@ -349,7 +349,7 @@ undefined8 main(undefined4 param_1,undefined8 param_2,undefined8 param_3)
 ```
 
 ## Graph view
-![](../../assets/mba-pseudocode.png)
+![](../../assets/images/pseucode/mba-pseudocode.png)
 
 ### Command
 ```shell
@@ -359,7 +359,7 @@ tigress \
   --Functions=* \
   --EncodeArithmeticKinds=* \
   obfuscation-demo.c \
-  --out=tigress/code/MBA.c
+  --out=tigress/code/mba.c
 ```
 
 # Flattening
@@ -779,7 +779,7 @@ undefined8 main(undefined4 param_1,undefined8 param_2,undefined8 param_3)
 ```
 
 ## Graph view
-![](../../assets/flattening-pseudocode.png)
+![](../../assets/images/pseucode/flattening-pseudocode.png)
 
 ### Command
 ```shell
