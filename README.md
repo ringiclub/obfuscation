@@ -29,8 +29,7 @@ For the moment, it's more about O-MVLL.... cause ollvm is too old.
 ## Benchmarks
 To justify the use of a native C plugin versus an external Python script, benchmark details are provided [here](benchs/README.md).
 
-## References
-Further references and readings are available in the main repository.
-
 ---
-Feel free to navigate through the links to get a more comprehensive understanding of each section.
+> [!NOTE]
+> Feel free to navigate through the links to get a more comprehensive understanding of each section.
+> The final version of the analysis is present in the [notebooks](notebooks/).
