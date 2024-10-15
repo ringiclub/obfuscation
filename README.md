@@ -31,5 +31,6 @@ To justify the use of a native C plugin versus an external Python script, benchm
 
 ---
 > [!NOTE]
-> Feel free to navigate through the links to get a more comprehensive understanding of each section.
-> The final version of the analysis is present in the [notebooks](notebooks/).
+> Feel free to navigate through the links to get a more comprehensive understanding of each section.<br>
+> The "professional" version of the analysis is present in the [notebooks](notebooks/). <br>
+> The personal version is all the source. I suggest to read the professional one, since, it's more organized.<br>
