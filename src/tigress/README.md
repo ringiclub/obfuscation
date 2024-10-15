@@ -191,6 +191,9 @@ tigress \
 
 # Mixed boolean arithmetic
 
+- [executable](code/mba.d/mba)
+- [obfuscated_source](code/mba.d/mba.c)
+
 ## Pseudo-code
 ```c++
 
@@ -363,6 +366,9 @@ tigress \
 ```
 
 # Flattening
+
+- [executable](code/flattening.d/flattening)
+- [obfuscated_source](code/flattening.d/flattening.c)
 
 ## Pseudo-code
 ```c++
@@ -793,6 +799,9 @@ tigress \
 ```
 
 # Bogus Control Flow
+
+- [executable](code/bogus.d/antiAliasAnalysis)
+- [obfuscated_source](code/bogus.d/antiAliasAnalysis.c)
 
 ## Pseudo-code
 ```c++
