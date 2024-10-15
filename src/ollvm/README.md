@@ -25,3 +25,7 @@ Technically, obfuscation can be performed at any abstraction level of a program.
 
 Regarding the engineering aspects, it is because there are lots of front-ends converting different languages into the same LLVM bytecode (Clang/Clang++ for C/C++, Mono LLVM for C#, Python and so on).
 Hence, by working at the bytecode level, it is possible to obfuscate programs written in many languages without even knowing them. Another good thing is that the obfuscation can be easily integrated with the existing compilation chains: just add a few obfuscation flags.
+
+## SOON
+
+For the moment I encounter some problems using ollvm and also o-mvll that's why this section is kinda empty
