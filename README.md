@@ -9,7 +9,7 @@ Before trying to de-obfuscate anything and everything, you need to understand ho
 For a detailed analysis, please refer to the following dedicated READMEs:
 
 - [Obfuscation In General](src/analysis/README.md)
-- [Tigress Options](src/tigress/dump/options.md)
+- [Tigress Options](src/tigress/options.md)
   - [Tigress Testing](src/tigress/README.md)
 - [OLLVM Analysis](src/ollvm/README.md)
 - [Benchmarks](benchs/README.md)
@@ -19,8 +19,11 @@ Go through each README for an in-depth look at the various aspects and technique
 ## Obfuscation In General
 The detailed analysis of general obfuscation techniques is documented [here](src/analysis/README.md).
 
-## Tigress Options
-The detailed analysis of Tigress obfuscation techniques is documented [here](src/tigress/dump/options.md).
+## Tigress Testing
+The detailed analysis of Tigress obfuscation techniques is documented [here](src/tigress/).
+
+> [!IMPORTANT]
+> In the first demo version I mainly used Ghidra for analyses, and in the second one i used IDA Pro 9.0
 
 ## OLLVM Analysis
 The detailed analysis of OLLVM obfuscation techniques is documented [here](src/ollvm/README.md).<br>

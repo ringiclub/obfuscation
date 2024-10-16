@@ -1,12 +1,12 @@
 # Introduction
 
-Here all the test on Tigress obfuscator are made based on this initial code [click here](../obfuscation-demo.c)...
+Here all the test on Tigress obfuscator are made based on this initial code [click here](../../demo-v1.c)...
 This file aim to show some testing on tigress, to demonstrate the changes after the obfuscation, on the 4 mosts commmon one for our cases.
 
 # Opaque Predicate
 
-- [executable](code/opaquePredicate.d/initOpaque)
-- [obfuscated_source](code/opaquePredicate.d/initOpaque.c)
+- [executable](opaquePredicate.d/initOpaque)
+- [obfuscated_source](opaquePredicate.d/initOpaque.c)
 
 ## Pseudo-code
 ```cpp
@@ -127,7 +127,7 @@ This file aim to show some testing on tigress, to demonstrate the changes after 
 
 
 ## Graph view
-![](../../resources/images/pseudocode/initopaque.png)
+![](../../../resources/images/pseudocode/initopaque.png)
 
 ### Command
 ```shell
@@ -141,8 +141,8 @@ tigress \
 
 # Mixed boolean arithmetic
 
-- [executable](code/mba.d/mba)
-- [obfuscated_source](code/mba.d/mba.c)
+- [executable](mba.d/mba)
+- [obfuscated_source](mba.d/mba.c)
 
 ## Pseudo-code
 ```c++
@@ -248,7 +248,7 @@ undefined8 main(undefined4 param_1,undefined8 param_2,undefined8 param_3)
 ```
 
 ## Graph view
-![](../../resources/images/pseudocode/mba.png)
+![](../../../resources/images/pseudocode/mba.png)
 
 ### Command
 ```shell
@@ -263,8 +263,8 @@ tigress \
 
 # Flattening
 
-- [executable](code/flattening.d/flattening)
-- [obfuscated_source](code/flattening.d/flattening.c)
+- [executable](flattening.d/flattening)
+- [obfuscated_source](flattening.d/flattening.c)
 
 ## Pseudo-code
 ```c++
@@ -621,7 +621,7 @@ undefined8 main(undefined4 param_1,undefined8 param_2,undefined8 param_3)
 ```
 
 ## Graph view
-![](../../resources/images/pseudocode/flattening.png)
+![](../../../resources/images/pseudocode/flattening.png)
 
 
 ### Command
@@ -638,8 +638,8 @@ tigress \
 
 # Bogus Control Flow
 
-- [executable](code/bogus.d/antiAliasAnalysis)
-- [obfuscated_source](code/bogus.d/antiAliasAnalysis.c)
+- [executable](bogus.d/antiAliasAnalysis)
+- [obfuscated_source](bogus.d/antiAliasAnalysis.c)
 
 ## Pseudo-code
 ```c++
@@ -840,7 +840,7 @@ undefined8 main(undefined4 param_1,undefined8 param_2,undefined8 param_3)
 ```
 
 ## Graph view
-![](../../resources/images/pseudocode/bogus.png)
+![](../../../resources/images/pseudocode/bogus.png)
 
 ### Command
 ```shell
