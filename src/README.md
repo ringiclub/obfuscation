@@ -163,7 +163,7 @@ An  assignment to i is a statement of the form i = V and a use of i is an occurr
 * Any assignments of `i` of the form `i = V` ar replace by `j = f(V)`
 * Any uses of `i` are replaced by a *while* loop.
 
-In other therms, this replacements can be used to obfuscate a *while* loop. [Look at this file for an example](src/analysis/variable-transformations.c)
+In other therms, this replacements can be used to obfuscate a *while* loop. [Look at this file for an example](../resources/scripts/variable-transformations.c)
 
 ## Array transformations
 There are many ways in which arrays can be obfuscated. One of the simplest ways is to change the array indices.
@@ -536,7 +536,7 @@ In this way the original program semantics is realized implicitly by controlling
 Because the execution order of code blocks is determined by the variable dynamically, one cannot know the control flows without executing the program.
 
 Here is a great schemes to explain what do its look like from tree view:<br>
-![flattening](../../assets/images/tree_flattening.webp)
+![flattening](../resources/images/tree_flattening.webp)
 
 ## Implicit controls
 This strategy converts explicit control instructions to implicit ones. It can hinder reverse engineers from addressing the correct control flows. For example, we can replace the control instructions of assembly codes (e.g., jmp and jne) with a combination of mov and other instructions which implement the same control semantics.
@@ -545,9 +545,9 @@ Note that all existing control-flow obfuscation approaches focus on syntactic-le
 **Original code**
 ```asm
 jne target_label
-    ; some code
+    ; some scripts
 target_label:
-    ; code to be executed if jne is taken
+    ; scripts to be executed if jne is taken
 ```
 
 **Obfuscated code**
@@ -555,9 +555,9 @@ target_label:
 mov rax, 0            ; Set condition variable to 0
 cmp rax, 1            ; Compare it against a constant
 je  continue          ; If equal, jump to continue
-; code to execute if jne would have been taken
+; scripts to execute if jne would have been taken
 continue:
-    ; some code
+    ; some scripts
 ```
 
 Here, the `jne` (jump if not equal) instruction is replaced with a combination of `mov`, `cmp`, and `je`, introducing additional complexity while maintaining the original control flow.

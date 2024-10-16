@@ -12,7 +12,7 @@
 void simple_loop_base() {
   int i =  1;
   while (i <= 100) {
-    // some code ...
+    // some scripts ...
     printf("Base loop iteration: %d\n", i);
     i++;
   }
@@ -30,7 +30,7 @@ void simple_loop_base() {
 void simple_loop_step1() {
   int j = 5;
   while ((j - 3) / 2 < 100) {
-    // some code ...
+    // some scripts ...
     printf("Step 1 iteration: %d\n", (j - 3) / 2);
     j = (2 * (((j - 3) / 2) + 1)) + 3;
   }
@@ -42,7 +42,7 @@ void simple_loop_step2() {
   int i = 1;
   int k = 20;
   while (i < 100 && (k * k * (k + 1) * (k + 1) % 4 == 0)) {
-    // some code ...
+    // some scripts ...
     printf("Step 2 iteration: %d\n", i);
     i++;
     k *= (i + 3);
