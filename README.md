@@ -9,7 +9,7 @@ Before trying to de-obfuscate anything and everything, you need to understand ho
 For a detailed analysis, please refer to the following dedicated READMEs:
 
 - [Obfuscation In General](src/analysis/README.md)
-- [Tigress Options](src/tigress/OPTIONS_DUMP.md)
+- [Tigress Options](src/tigress/dump/options.md)
   - [Tigress Testing](src/tigress/README.md)
 - [OLLVM Analysis](src/ollvm/README.md)
 - [Benchmarks](benchs/README.md)
