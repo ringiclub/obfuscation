@@ -20,7 +20,7 @@ Go through each README for an in-depth look at the various aspects and technique
 The detailed analysis of general obfuscation techniques is documented [here](src/analysis/README.md).
 
 ## Tigress Options
-The detailed analysis of Tigress obfuscation techniques is documented [here](src/tigress/OPTIONS_DUMP).
+The detailed analysis of Tigress obfuscation techniques is documented [here](src/tigress/dump/options.md).
 
 ## OLLVM Analysis
 The detailed analysis of OLLVM obfuscation techniques is documented [here](src/ollvm/README.md).<br>
