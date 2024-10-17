@@ -13,6 +13,8 @@ For a detailed analysis, please refer to the following dedicated READMEs:
   - [Tigress Testing](src/tigress/README.md)
 - [OLLVM Analysis](src/ollvm/README.md)
 - [Benchmarks](benchs/README.md)
+- [Quote us](#quote-us)
+- [References](#references)
 
 Go through each README for an in-depth look at the various aspects and techniques of obfuscation we are analyzing.
 
@@ -37,8 +39,7 @@ To justify the use of a native C plugin versus an external Python script, benchm
 > Feel free to navigate through the links to get a more comprehensive understanding of each section.<br>
 > This analyse is not written into notebooks because it have some github markdown integrations that JupyterNoteBooks doesn't have.
 
-<br>
-
+## Quote us
 You can site this analyse using the following Bibtex entry:
 ```latex
 @misc{reverse_engineering_analysis,
@@ -49,7 +50,6 @@ You can site this analyse using the following Bibtex entry:
   url          = {https://github.com/ringiclub/obfuscation},
 }
 ```
----
 
 ## References
 
