@@ -6,15 +6,7 @@ Software obfuscation is a method to make programs more difficult to reverse engi
 
 Before trying to de-obfuscate anything and everything, you need to understand how obfuscation works, its different application and abstraction layers, and above all, how it works with LLVM and Tigress.
 
-For a detailed analysis, please refer to the following dedicated READMEs:
-
-- [Obfuscation In General](src/README.md)
-- [Tigress Options](src/tigress/options.md)
-  - [Tigress Testing](src/tigress/README.md)
-- [OLLVM Analysis](src/ollvm/README.md)
-- [Benchmarks](benchs/README.md)
-- [Quote us](#quote-us)
-- [References](#references)
+For a detailed analysis, please refer to the dedicated READMEs.
 
 Go through each README for an in-depth look at the various aspects and techniques of obfuscation we are analyzing.
 
