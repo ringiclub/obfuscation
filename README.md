@@ -35,8 +35,7 @@ To justify the use of a native C plugin versus an external Python script, benchm
 ---
 > [!NOTE]
 > Feel free to navigate through the links to get a more comprehensive understanding of each section.<br>
-> The "professional" version of the analysis is present in the [notebooks](notebooks/). <br>
-> The personal version is all the source. I suggest to read the professional one, since, it's more organized.<br>
+> This analyse is not written into notebooks because it have some github markdown integrations that JupyterNoteBooks doesn't have.
 
 <br>
 
