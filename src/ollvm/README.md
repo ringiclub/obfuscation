@@ -26,6 +26,18 @@ Technically, obfuscation can be performed at any abstraction level of a program.
 Regarding the engineering aspects, it is because there are lots of front-ends converting different languages into the same LLVM bytecode (Clang/Clang++ for C/C++, Mono LLVM for C#, Python and so on).
 Hence, by working at the bytecode level, it is possible to obfuscate programs written in many languages without even knowing them. Another good thing is that the obfuscation can be easily integrated with the existing compilation chains: just add a few obfuscation flags.
 
-## SOON
+## Compilation
 
-For the moment I encounter some problems using ollvm and also o-mvll that's why this section is kinda empty
+```sh
+clang -c -S -emit-llvm -O1 <source>.c -o <ir>.ll
+opt -load-pass-plugin=./libpasses-<llvm-version>.so -passes "pass_name" <ir>.ll -S -o <passed_ir>.ll -debug-pass-manager
+
+clang <passed_ir>.ll -o <obfuscated_executable>
+```
+
+### Passes name
+* example-pass
+* pluto-bogus-control-flow
+* pluto-flattening
+* pluto-mba-obfuscation
+* pluto-substitution
