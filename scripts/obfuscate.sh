@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 passes=("bogus-control-flow" "flattening" "mba-obfuscation" "substitution" "indirect-call" "global-encryption")
 mkdir -p src/dump/pluto
 
@@ -18,7 +16,7 @@ for pass in "${passes[@]}"; do
     pass_dir="${pass/pluto-/}"
         
     echo "Running pass: pluto-$pass"
-    opt -load-pass-plugin=./lib/libpasses-$(llvm-config --version | cut -d'.' -f1).so -passes "pluto-$pass" src/dump/pluto/main.ll -S -o "src/dump/pluto/$pass_dir/$pass_dir.ll" -debug-pass-manager
+    opt -load-pass-plugin=./resources/lib/libpasses-"$(llvm-config --version | cut -d'.' -f1)".so -passes "pluto-$pass" src/dump/pluto/main.ll -S -o "src/dump/pluto/$pass_dir/$pass_dir.ll" -debug-pass-manager
 
     if [ $? -ne 0 ]; then
         echo "Error running pass: pluto-$pass"
@@ -43,7 +41,7 @@ done
 mkdir -p src/dump/pluto/example
 
 # Hardcoded pass
-opt -load-pass-plugin=./lib/libpasses-$(llvm-config --version | cut -d'.' -f1).so -passes "example-pass" src/dump/pluto/main.ll -S -o "src/dump/pluto/example/example.ll" -debug-pass-manager
+opt -load-pass-plugin=./resources/lib/libpasses-"$(llvm-config --version | cut -d'.' -f1)".so -passes "example-pass" src/dump/pluto/main.ll -S -o "src/dump/pluto/example/example.ll" -debug-pass-manager
 
 if [ $? -ne 0 ]; then
     echo "Error running pass: example-pass"
@@ -62,3 +60,46 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "All pluto passes ran successfully"
+
+mkdir -p src/dump/tigress
+mkdir -p src/dump/tigress/mba src/dump/tigress/opaquePredicate src/dump/tigress/flattening src/dump/tigress/bogus
+
+tigress \
+  --Environment=x86_64:Linux:Gcc:"$(gcc --version | grep -oP '\d+\.\d+\.\d+')" \
+   --Transform=InitOpaque \
+   --Functions=* \
+   src/analysis/main.c \
+   --out=src/dump/tigress/opaquePredicate/initOpaque.c
+
+tigress \
+  --Environment=x86_64:Linux:Gcc:"$(gcc --version | grep -oP '\d+\.\d+\.\d+')" \
+  --Transform=EncodeArithmetic \
+  --Functions=* \
+  --EncodeArithmeticKinds=* \
+  src/analysis/main.c \
+  --out=src/dump/tigress/mba/mba.c
+
+tigress \
+  --Environment=x86_64:Linux:Gcc:"$(gcc --version | grep -oP '\d+\.\d+\.\d+')" \
+  --Transform=Flatten \
+  --Functions=* \
+  --FlattenSplitBasicBlocks=true \
+  --FlattenRandomizeBlocks=true \
+  src/analysis/main.c \
+  --out=src/dump/tigress/flattening/flattening.c
+
+tigress \
+  --Environment=x86_64:Linux:Gcc:"$(gcc --version | grep -oP '\d+\.\d+\.\d+')" \
+  --Transform=Flatten \
+  --Functions=* \
+  --AntiAliasAnalysisObfuscateIndex=true \
+  --AntiAliasAnalysisBogusEntries=true \
+    src/analysis/main.c \
+  --out=src/dump/tigress/bogus/antiAliasAnalysis.c
+
+echo "All tigress passes ran successfully"
+
+# gcc src/dump/tigress/opaquePredicate/initOpaque.c -o src/dump/tigress/opaquePredicate/initOpaque
+# gcc src/dump/tigress/mba/mba.c -o src/dump/tigress/mba/mba
+# gcc src/dump/tigress/flattening/flattening.c -o src/dump/tigress/flattening/flattening
+# gcc src/dump/tigress/bogus/antiAliasAnalysis.c -o src/dump/tigress/bogus/antiAliasAnalysis
