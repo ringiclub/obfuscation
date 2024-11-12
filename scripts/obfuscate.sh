@@ -10,8 +10,8 @@ for pass in "${passes[@]}"; do
     mkdir -p "src/dump/pluto/$pass_dir"
 done
 
-clang main.c -o src/dump/pluto/main
-clang -c -S -emit-llvm -O1 main.c -o src/dump/pluto/main.ll
+clang src/analysis/main.c -o src/dump/pluto/main
+clang -c -S -emit-llvm -O1 src/analysis/main.c -o src/dump/pluto/main.ll
 
 # I recommend using llvm 16, because 17 and 18 used to segfault a lot
 for pass in "${passes[@]}"; do
